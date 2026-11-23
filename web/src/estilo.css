@@ -1,0 +1,22 @@
+/* Complementos da v5 — o visual principal vem de src/legado/estilo.css (ESTILO.txt original) */
+[hidden] { display: none !important; }
+
+/* Tela de login / carregando por cima da intranet */
+.auth-overlay { position: fixed; inset: 0; z-index: 10000; background: var(--bg); }
+.auth-overlay.saindo { opacity: 0; transition: opacity .25s; pointer-events: none; }
+.auth-tela { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
+.auth-card { width: 100%; max-width: 380px; background: var(--card-bg); border: 1px solid var(--border2); border-radius: 12px; padding: 40px 32px; text-align: center; display: grid; gap: 16px; }
+.auth-logo { font-family: var(--font-display); font-weight: 900; font-size: 34px; letter-spacing: 4px; color: var(--text); }
+.auth-sub { color: var(--text2); font-size: 14px; line-height: 1.5; }
+.auth-erro { color: #f87171; font-size: 13px; }
+.auth-btn { font-family: var(--font-display); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 13px; padding: 12px 20px; border-radius: 6px; border: 0; background: var(--text); color: var(--bg); cursor: pointer; }
+.auth-btn:hover { opacity: .85; }
+.auth-btn-ghost { background: transparent; border: 1px solid var(--border2); color: var(--text2); }
+
+/* Botão "Sair" no mesmo estilo dos botões redondos da navbar */
+.nav-icon-btn { background: none; border: 1px solid var(--border2); color: var(--text3); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all .2s; margin-right: 4px; }
+.nav-icon-btn:hover { border-color: var(--text); color: var(--text); }
+
+/* Aviso de módulo ainda em migração */
+.aviso-migracao { margin: 0 0 16px; padding: 12px 16px; border: 1px solid #b4530966; background: #b4530914; color: var(--text2); border-radius: 6px; font-size: 13px; line-height: 1.5; }
+.aviso-migracao strong { color: var(--text); }

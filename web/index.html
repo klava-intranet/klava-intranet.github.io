@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Klava Brands Group | Intranet</title>
+  <link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;Klava Intranet&quot;,&quot;short_name&quot;:&quot;Klava&quot;,&quot;start_url&quot;:&quot;.&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;%230a0a0a&quot;,&quot;theme_color&quot;:&quot;%230a0a0a&quot;,&quot;icons&quot;:[{&quot;src&quot;:&quot;data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20192%20192%22%20width%3D%22192%22%20height%3D%22192%22%3E%3Crect%20width%3D%22192%22%20height%3D%22192%22%20rx%3D%2228%22%20fill%3D%22%230a0a0a%22/%3E%3Ctext%20x%3D%2296%22%20y%3D%22128%22%20font-family%3D%22Arial%2C%20Helvetica%2C%20sans-serif%22%20font-weight%3D%22900%22%20font-size%3D%22108%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%3EK%3C/text%3E%3C/svg%3E&quot;,&quot;sizes&quot;:&quot;192x192&quot;,&quot;type&quot;:&quot;image/svg+xml&quot;},{&quot;src&quot;:&quot;data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%20width%3D%22512%22%20height%3D%22512%22%3E%3Crect%20width%3D%22512%22%20height%3D%22512%22%20rx%3D%2274%22%20fill%3D%22%230a0a0a%22/%3E%3Ctext%20x%3D%22256%22%20y%3D%22341%22%20font-family%3D%22Arial%2C%20Helvetica%2C%20sans-serif%22%20font-weight%3D%22900%22%20font-size%3D%22288%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%3EK%3C/text%3E%3C/svg%3E&quot;,&quot;sizes&quot;:&quot;512x512&quot;,&quot;type&quot;:&quot;image/svg+xml&quot;}]}">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20192%20192%22%20width%3D%22192%22%20height%3D%22192%22%3E%3Crect%20width%3D%22192%22%20height%3D%22192%22%20rx%3D%2228%22%20fill%3D%22%230a0a0a%22/%3E%3Ctext%20x%3D%2296%22%20y%3D%22128%22%20font-family%3D%22Arial%2C%20Helvetica%2C%20sans-serif%22%20font-weight%3D%22900%22%20font-size%3D%22108%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%3EK%3C/text%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20192%20192%22%20width%3D%22192%22%20height%3D%22192%22%3E%3Crect%20width%3D%22192%22%20height%3D%22192%22%20rx%3D%2228%22%20fill%3D%22%230a0a0a%22/%3E%3Ctext%20x%3D%2296%22%20y%3D%22128%22%20font-family%3D%22Arial%2C%20Helvetica%2C%20sans-serif%22%20font-weight%3D%22900%22%20font-size%3D%22108%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%3EK%3C/text%3E%3C/svg%3E">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Klava">
+  <meta name="theme-color" id="meta-theme-color" content="#0a0a0a">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="./src/legado/estilo.css" />
+  <link rel="stylesheet" href="./src/estilo.css" />
+</head>
+<body>
+
+  <!-- ═══ AUTENTICAÇÃO (v5) ═══ -->
+  <div id="auth-overlay" class="auth-overlay">
+    <section id="tela-carregando" class="auth-tela">
+      <div class="auth-card"><div class="auth-logo">KLAVA<sup>®</sup></div><p class="auth-sub">Carregando…</p></div>
+    </section>
+    <section id="tela-login" class="auth-tela" hidden>
+      <div class="auth-card">
+        <div class="auth-logo">KLAVA<sup>®</sup></div>
+        <p class="auth-sub">Intranet</p>
+        <button id="btn-login" class="auth-btn">Entrar com Google</button>
+        <p id="login-erro" class="auth-erro" hidden></p>
+      </div>
+    </section>
+    <section id="tela-sem-acesso" class="auth-tela" hidden>
+      <div class="auth-card">
+        <div class="auth-logo">KLAVA<sup>®</sup></div>
+        <p class="auth-sub">O e-mail <strong id="email-sem-acesso"></strong> não está liberado na intranet.</p>
+        <p class="auth-sub">Peça a um administrador para cadastrar você.</p>
+        <button id="btn-sair-2" class="auth-btn auth-btn-ghost">Sair</button>
+      </div>
+    </section>
+  </div>
+
+
+  <!-- ═══ NAVBAR ═══ -->
+  <nav class="navbar">
+    <div class="navbar-logo" onclick="showPage('hero')">KLAVA<sup>®</sup></div>
+    <ul class="nav-links">
+      <li><a onclick="showPage('hero')"      data-i18n="nav-home">Início</a></li>
+      <li><a onclick="showPage('setores')"   data-i18n="nav-sectors">Setores</a></li>
+      <li><a onclick="showPage('drive')"     data-i18n="nav-drive">Drive</a></li>
+      <li><a onclick="showPage('wiki')"      data-i18n="nav-wiki">Wiki</a></li>
+      <li><a onclick="showPage('sistemas')"  data-i18n="nav-systems">Sistemas</a></li>
+      <li><a onclick="openModal('bis')"      data-i18n="nav-bi">BIs e Dashboards</a></li>
+      <li><a onclick="showPage('dashboard')" id="nav-dashboard-link" data-i18n="nav-dashboard">Dashboard</a></li>
+      <li><a onclick="showPage('tarefas')"   id="nav-tasks-link" data-i18n="nav-tasks">Tarefas</a></li>
+      <li><a onclick="showPage('contato')"   data-i18n="nav-contact">Contato</a></li>
+      <li><a onclick="showPage('chat')"      id="nav-chat-link" data-i18n="nav-chat">Chat</a></li>
+    </ul>
+    <div class="navbar-right">
+      <div class="global-search-wrap" style="position:relative;margin-right:6px;">
+        <button id="global-search-toggle" onclick="toggleGlobalSearch()"
+          style="background:none;border:1px solid var(--border2);color:var(--text3);width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all 0.2s;"
+          onmouseover="this.style.borderColor='var(--text)';this.style.color='var(--text)'"
+          onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text3)'">🔍</button>
+        <div id="global-search-panel" style="display:none;position:absolute;top:40px;right:0;width:340px;max-width:90vw;background:var(--card-bg,#111);border:1px solid var(--border2);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.4);z-index:500;padding:10px;">
+          <input type="text" id="global-search-input" placeholder="Buscar em tudo…" data-i18n-placeholder="global-search-placeholder"
+            style="width:100%;background:var(--input-bg);border:1px solid var(--border);color:var(--text);font-size:13px;padding:9px 12px;outline:none;border-radius:4px;box-sizing:border-box;"
+            oninput="onGlobalSearchInput(this.value)">
+          <div id="global-search-results" style="max-height:400px;overflow-y:auto;margin-top:8px;"></div>
+        </div>
+      </div>
+      <button id="ai-ask-toggle" onclick="openAiAskModal()" title="Pergunte à Intranet" data-i18n-title="ai-ask-btn-title"
+        style="background:none;border:1px solid var(--border2);color:var(--text3);width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all 0.2s;margin-right:6px;"
+        onmouseover="this.style.borderColor='var(--text)';this.style.color='var(--text)'"
+        onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text3)'">🤖</button>
+      <button id="notif-toggle" onclick="toggleBrowserNotifications()" title="Ativar notificações" data-i18n-title="notif-enable-btn"
+        style="background:none;border:1px solid var(--border2);color:var(--text3);width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all 0.2s;margin-right:4px;"
+        onmouseover="this.style.borderColor='var(--text)';this.style.color='var(--text)'"
+        onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text3)'">🔔</button>
+      <button id="theme-toggle" onclick="toggleTheme()" title="Alternar tema" data-i18n-title="theme-toggle-title"
+        style="background:none;border:1px solid var(--border2);color:var(--text3);width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;transition:all 0.2s;margin-right:4px;"
+        onmouseover="this.style.borderColor='var(--text)';this.style.color='var(--text)'"
+        onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text3)'">🌙</button>
+      <div class="user-greeting" id="user-display">
+        <span data-i18n="greeting-hi">OLÁ</span>,
+        <a href="https://mail.google.com/" target="_blank" style="text-decoration:none;color:inherit;">
+          <span class="user-alias">...</span>
+        </a>
+      </div>
+      <button id="btn-sair" class="nav-icon-btn" title="Sair" aria-label="Sair">⏻</button>
+      <button class="apps-hub-btn" onclick="toggleAppsHub()" id="apps-hub-btn" title="Apps" data-i18n-title="apps-hub-title">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="pointer-events:none;">
+          <circle cx="2"  cy="2"  r="1.5" fill="currentColor"/>
+          <circle cx="9"  cy="2"  r="1.5" fill="currentColor"/>
+          <circle cx="16" cy="2"  r="1.5" fill="currentColor"/>
+          <circle cx="2"  cy="9"  r="1.5" fill="currentColor"/>
+          <circle cx="9"  cy="9"  r="1.5" fill="currentColor"/>
+          <circle cx="16" cy="9"  r="1.5" fill="currentColor"/>
+          <circle cx="2"  cy="16" r="1.5" fill="currentColor"/>
+          <circle cx="9"  cy="16" r="1.5" fill="currentColor"/>
+          <circle cx="16" cy="16" r="1.5" fill="currentColor"/>
+        </svg>
+      </button>
+      <div class="apps-hub-dropdown" id="apps-hub-dropdown">
+        <div class="apps-hub-grid">
+          <a href="https://docs.google.com/spreadsheets" target="_blank" class="apps-hub-item"><span class="apps-hub-icon">🟢</span><span class="apps-hub-label">Sheets</span></a>
+          <a href="https://docs.google.com/document"     target="_blank" class="apps-hub-item"><span class="apps-hub-icon">🔵</span><span class="apps-hub-label">Docs</span></a>
+          <a href="https://docs.google.com/presentation" target="_blank" class="apps-hub-item"><span class="apps-hub-icon">🟡</span><span class="apps-hub-label">Slides</span></a>
+          <a href="https://drive.google.com"             target="_blank" class="apps-hub-item"><span class="apps-hub-icon">🔺</span><span class="apps-hub-label">Drive</span></a>
+          <a href="https://www.canva.com"                target="_blank" class="apps-hub-item"><span class="apps-hub-icon">🎨</span><span class="apps-hub-label">Canva</span></a>
+          <div class="apps-hub-item" onclick="closeAppsHub();showPage('chat')"><span class="apps-hub-icon">💬</span><span class="apps-hub-label">Chat</span></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══ HERO ═══ -->
+  <section id="page-hero" class="page-content page-active hero">
+    <div class="hero-left">
+      <h1 class="hero-title" data-i18n="hero-title">Construindo<br>marcas que<br><em>importam</em></h1>
+      <p style="color:var(--text3);margin-top:20px;max-width:400px;" data-i18n="hero-subtitle">Bem-vindo à central de inteligência da Klava.</p>
+      <div class="currency-widget">
+        <div class="cw-top">
+          <span class="cw-label" data-i18n="cw-title">Câmbio</span>
+          <span style="font-size:9px;color:#333;letter-spacing:1px;text-transform:uppercase;" id="cw-updated">atualizando...</span>
+        </div>
+        <div class="cw-coins" id="cw-coins"><span style="font-size:10px;color:#333;letter-spacing:2px;text-transform:uppercase;" data-i18n="cw-loading">carregando...</span></div>
+        <button class="cw-collapse-btn" id="cw-toggle" onclick="cwToggle()">
+          <span data-i18n="cw-history">Histórico 7 dias</span>
+          <span class="cw-arrow" id="cw-arrow">▼</span>
+        </button>
+        <div class="cw-history-panel" id="cw-panel">
+          <div class="cw-chart-block"><div class="cw-chart-subtitle">USD / BRL</div><div class="cw-chart-wrap"><div class="cw-chart-msg" id="cw-msg-usd">carregando...</div><canvas id="cw-chart-usd" style="display:none;"></canvas></div></div>
+          <div class="cw-chart-block"><div class="cw-chart-subtitle">CNY / BRL</div><div class="cw-chart-wrap"><div class="cw-chart-msg" id="cw-msg-cny">carregando...</div><canvas id="cw-chart-cny" style="display:none;"></canvas></div></div>
+          <div class="cw-source" data-i18n="cw-source">Fonte: AwesomeAPI · cotação comercial</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="currency-widget" id="meu-dia-card">
+        <div class="cw-top">
+          <span class="cw-label" data-i18n="meu-dia-title">Meu Dia</span>
+          <span style="display:flex;align-items:center;gap:8px;">
+            <button onclick="meuDiaNavigate(-1)" style="background:none;border:none;color:#666;cursor:pointer;font-size:13px;padding:2px 4px;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='#666'">◀</button>
+            <span id="meu-dia-date-label" style="font-size:9px;color:#333;letter-spacing:1px;text-transform:uppercase;cursor:pointer;" onclick="meuDiaGoToday()"></span>
+            <button onclick="meuDiaNavigate(1)" style="background:none;border:none;color:#666;cursor:pointer;font-size:13px;padding:2px 4px;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='#666'">▶</button>
+          </span>
+        </div>
+        <div id="meu-dia-body" style="padding:14px 0 4px;font-size:11px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;" data-i18n="meu-dia-loading">Carregando seu dia…</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ WIKI (Base de Conhecimento) ═══ -->
+  <section id="page-wiki" class="page-content">
+    <div class="page-active-flex">
+      <div style="display:flex;align-items:center;justify-content:space-between;width:100%;max-width:1200px;margin-bottom:10px;flex-wrap:wrap;gap:12px;">
+        <h2 style="font-family:var(--font-display);font-size:42px;text-transform:uppercase;margin:0;" data-i18n="wiki-title">Base de Conhecimento</h2>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <input type="text" id="wiki-search" placeholder="Buscar artigo…" data-i18n-placeholder="wiki-search-placeholder" oninput="filterWiki(this.value)"
+            style="background:var(--input-bg);border:1px solid var(--border);color:var(--text);font-size:13px;padding:9px 14px;outline:none;border-radius:4px;min-width:220px;">
+          <button class="kanban-new-btn" id="wiki-add-btn" style="display:none;" onclick="openWikiFormModal()" data-i18n="wiki-add-btn">+ Novo Artigo</button>
+        </div>
+      </div>
+      <div id="wiki-container" style="width:100%;max-width:1200px;"></div>
+    </div>
+  </section>
+
+  <!-- Modal Detalhe do Artigo (Wiki) -->
+  <div id="modal-wiki-detail" class="modal" onclick="closeModalOutside(event,'wiki-detail')">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal('wiki-detail')">&times;</span>
+      <div class="modal-header" id="wkd-titulo">—</div>
+      <p style="color:var(--text3);margin:-14px 0 16px;font-size:11px;text-transform:uppercase;letter-spacing:1px;" id="wkd-categoria">—</p>
+      <div id="wkd-conteudo" style="font-size:14px;line-height:1.7;white-space:pre-wrap;color:var(--text);"></div>
+      <p style="color:var(--text4);font-size:10px;margin-top:20px;" id="wkd-meta">—</p>
+      <div id="wkd-admin-actions" style="display:none;margin-top:16px;padding-top:16px;border-top:1px solid #1a1a1a;gap:8px;flex-direction:column;">
+        <button class="channel-create-btn" style="margin-bottom:8px;" onclick="editWikiFromDetail()" data-i18n="wiki-edit-btn">Editar</button>
+        <button onclick="confirmDeleteWikiArticle()" style="width:100%;background:transparent;border:1px solid #8b0000;color:#e05555;font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:11px;cursor:pointer;" data-i18n="delete-btn">Excluir</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Adicionar/Editar Artigo (Wiki) -->
+  <div class="chat-modal" id="wiki-form-modal">
+    <div class="chat-modal-box" style="max-width:600px;">
+      <button class="chat-modal-close" onclick="closeWikiFormModal()">×</button>
+      <div class="chat-modal-title" id="wiki-form-modal-title" data-i18n="wiki-form-title-new">Novo Artigo</div>
+      <input type="hidden" id="wiki-form-id">
+      <div class="channel-form-field"><label class="channel-form-label" data-i18n="wiki-field-title">Título</label><input type="text" id="wiki-form-title" class="channel-form-input" placeholder="Ex: Processo de Importação" data-i18n-placeholder="wiki-title-placeholder" maxlength="100"></div>
+      <div class="channel-form-field">
+        <label class="channel-form-label" data-i18n="wiki-field-category">Categoria</label>
+        <input type="text" id="wiki-form-category" class="channel-form-input" list="wiki-category-options" placeholder="Ex: Processos, Políticas, Onboarding…" data-i18n-placeholder="wiki-category-placeholder" maxlength="40">
+        <datalist id="wiki-category-options"></datalist>
+      </div>
+      <div class="channel-form-field"><label class="channel-form-label" data-i18n="wiki-field-content">Conteúdo</label><textarea id="wiki-form-content" class="channel-form-input" rows="10" placeholder="Escreva o conteúdo do artigo…" data-i18n-placeholder="wiki-content-placeholder" style="resize:vertical;font-family:inherit;"></textarea></div>
+      <button class="channel-create-btn" id="wiki-form-save-btn" onclick="submitWikiForm()" data-i18n="wiki-save-btn">Salvar Artigo</button>
+    </div>
+  </div>
+
+  <!-- ═══ SETORES ═══ -->
+  <section id="page-setores" class="page-content">
+    <div class="org-wrapper">
+      <h2 class="org-page-title" data-i18n="sectors-title">Setores</h2>
+      <div class="org-root"><div class="org-root-box">KLAVA</div></div>
+      <div class="org-root-connector"></div>
+      <div class="org-departments-row">
+        <div class="org-dept-col"><div class="org-dept-inner"><div class="org-dept-header"><div class="org-dept-name" data-i18n="dept-comercial">COMERCIAL</div><div class="org-dept-person">(Franklin)</div></div><div class="org-dept-vline"></div><div class="org-items-list"><div class="org-item-wrapper"><div class="org-item-box" data-i18n="item-atacado-live">Atacado Live!</div><div class="org-item-connector"></div></div><div class="org-item-wrapper"><div class="org-item-box" data-i18n="item-atacado-ecko">Atacado Ecko</div><div class="org-item-connector"></div></div><div class="org-item-wrapper"><div class="org-item-box" data-i18n="item-atacado-flowfa">Atacado Flowfa</div></div></div></div></div>
+        <div class="org-dept-col"><div class="org-dept-inner"><div class="org-dept-header"><div class="org-dept-name" data-i18n="dept-salesops">SALES OPS.</div><div class="org-dept-person">(Tadeu)</div></div><div class="org-dept-vline"></div><div class="org-items-list"><div class="org-item-wrapper"><div class="org-item-box" data-i18n="item-pos-venda">Pós Venda</div><div class="org-item-connector"></div></div><div class="org-item-wrapper"><div class="org-item-box" data-i18n="item-estoque-virtual">Estoque Virtual</div><div class="org-item-connector"></div></div><div class="org-item-wrapper"><div class="org-item-box" data-i18n="item-dashboards">Dashboards</div></div></div></div></div>
+        <div class="org-dept-col"><div class="org-dept-inner"><div class="org-dept-header"><div class="org-dept-name" data-i18n="dept-design">DESIGN</div><div class="org-dept-person">(Luciano)</div></div><div class="org-dept-vline"></div><div class="org-items-list"><div class="org-item-wrapper"><div class="org-item-box" data-i18n="item-criacao">Criação</div><div class="org-item-connector"></div></div><div class="org-item-wrapper"><div class="org-item-box" data-i18n="item-projetos">Projetos</div></div></div></div></div>
+        <div class="org-dept-col"><div class="org-dept-inner"><div class="org-dept-header"><div class="org-dept-name" data-i18n="dept-financeiro">FINANCEIRO</div><div class="org-dept-person">(Nélia)</div></div><div class="org-dept-vline"></div><div class="org-items-list"><div class="org-item-wrapper"><div class="org-item-box" data-i18n="item-contas">Contas a Receber/Pagar</div><div class="org-item-connector"></div></div><div class="org-item-wrapper"><div class="org-item-box" data-i18n="item-cobranca">Cobrança</div><div class="org-item-connector"></div></div><div class="org-item-wrapper"><div class="org-item-box" data-i18n="item-fluxo">Fluxo de Caixa</div><div class="org-item-connector"></div></div><div class="org-item-wrapper"><div class="org-item-box" data-i18n="item-dre">DRE / Relatórios</div></div></div></div></div>
+        <div class="org-dept-col"><div class="org-dept-inner"><div class="org-dept-header"><div class="org-dept-name" data-i18n="dept-tesouraria">TESOURARIA</div><div class="org-dept-person">(Nélia)</div></div><div class="org-dept-vline"></div><div class="org-items-list"><div class="org-item-wrapper"><div class="org-item-box" data-i18n="item-conciliacao">Conciliação</div><div class="org-item-connector"></div></div><div class="org-item-wrapper"><div class="org-item-box" data-i18n="item-exec-financeira">Execução Financeira</div><div class="org-item-connector"></div></div><div class="org-item-wrapper"><div class="org-item-box" data-i18n="item-folha">Folha de Pgto</div></div></div></div></div>
+        <div class="org-dept-col"><div class="org-dept-inner"><div class="org-dept-header"><div class="org-dept-name" data-i18n="dept-online">ON LINE</div><div class="org-dept-person">(Valentina)</div></div><div class="org-dept-vline"></div><div class="org-items-list"><div class="org-item-wrapper"><div class="org-item-box" data-i18n="item-flowfa-online">Flowfa on line</div><div class="org-item-connector"></div></div><div class="org-item-wrapper"><div class="org-item-box" data-i18n="item-marketing">Marketing</div><div class="org-item-connector"></div></div><div class="org-item-wrapper"><div class="org-item-box" data-i18n="item-branding">Branding</div></div></div></div></div>
+        <div class="org-dept-col"><div class="org-dept-inner"><div class="org-dept-header novo"><div class="org-dept-name" data-i18n="dept-novo">NOVO</div><div class="org-dept-person">(?)</div></div><div class="org-dept-vline"></div><div class="org-items-list"><div class="org-item-wrapper"><div class="org-item-box highlight" data-i18n="item-marketplace">Marketplace</div><div class="org-item-connector"></div></div><div class="org-item-wrapper"><div class="org-item-box highlight" data-i18n="item-trafego">Tráfego</div></div></div></div></div>
+        <div class="org-dept-col"><div class="org-dept-inner"><div class="org-dept-header"><div class="org-dept-name" data-i18n="dept-logistica">LOGÍSTICA</div><div class="org-dept-person">(Prexx)</div></div><div class="org-dept-vline"></div><div class="org-items-list"><div class="org-item-wrapper"><div class="org-item-box" data-i18n="item-frete">Frete</div><div class="org-item-connector"></div></div><div class="org-item-wrapper"><div class="org-item-box" data-i18n="item-estoque-fisico2">Estoque Físico</div><div class="org-item-connector"></div></div><div class="org-item-wrapper"><div class="org-item-box" data-i18n="item-log-reversa2">Logística Reversa</div></div></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ DRIVE ═══ -->
+  <section id="page-drive" class="page-content">
+    <div class="page-active-flex">
+      <div style="display:flex;align-items:center;justify-content:space-between;width:100%;max-width:1200px;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+        <h2 style="font-family:var(--font-display);font-size:42px;text-transform:uppercase;" data-i18n="drive-title">Arquivos e Documentos</h2>
+        <input type="text" id="drive-search" placeholder="Buscar arquivo…" data-i18n-placeholder="drive-search-placeholder" oninput="filterDriveFiles(this.value)">
+      </div>
+      <div id="drive-sectors-container" style="width:100%;max-width:1200px;"></div>
+    </div>
+  </section>
+
+  <!-- Modal upload Drive -->
+  <div class="chat-modal" id="drive-upload-modal">
+    <div class="chat-modal-box" style="max-width:520px;">
+      <button class="chat-modal-close" onclick="closeDriveUploadModal()">×</button>
+      <div class="chat-modal-title" id="drive-upload-modal-title">📁 Enviar Arquivo</div>
+      <div style="margin-bottom:14px;">
+        <label class="channel-form-label" data-i18n="drive-file-label">Arquivo</label> <span style="color:var(--text4);font-size:9px;" data-i18n="drive-file-max">(máx. 30 MB)</span>
+        <div style="border:1px dashed var(--border2);padding:20px;text-align:center;cursor:pointer;" onclick="document.getElementById('drive-file-input').click();" id="drive-drop-zone">
+          <div style="font-size:28px;margin-bottom:8px;">📎</div>
+          <div style="font-size:12px;color:var(--text3);" id="drive-drop-label" data-i18n="drive-drop-label">Clique para selecionar ou arraste aqui</div>
+        </div>
+        <input type="file" id="drive-file-input" style="display:none;" onchange="onDriveFileSelected(event)">
+      </div>
+      <div style="margin-bottom:14px;">
+        <label class="channel-form-label" data-i18n="drive-desc-label">Descrição</label> <span style="color:var(--text4);font-size:9px;" data-i18n="optional-label">(opcional)</span>
+        <input type="text" id="drive-file-desc" class="channel-form-input" placeholder="Ex: Relatório mensal…" data-i18n-placeholder="drive-desc-placeholder" maxlength="120">
+      </div>
+      <div class="drive-upload-progress" id="drive-upload-progress" data-i18n="drive-uploading-progress">Enviando arquivo para o Drive…</div>
+      <button class="channel-create-btn" id="drive-upload-btn" onclick="submitDriveUpload()" data-i18n="drive-upload-submit-btn">Enviar Arquivo</button>
+    </div>
+  </div>
+
+  <!-- Modal link Drive -->
+  <div class="chat-modal" id="drive-link-modal">
+    <div class="chat-modal-box" style="max-width:480px;">
+      <button class="chat-modal-close" onclick="closeDriveLinkModal()">×</button>
+      <div class="chat-modal-title" id="drive-link-modal-title">🔗 Adicionar Link</div>
+      <div style="margin-bottom:14px;"><label class="channel-form-label" data-i18n="drive-link-title-label">Título</label><input type="text" id="drive-link-title" class="channel-form-input" placeholder="Ex: LIVE Total…" data-i18n-placeholder="drive-link-title-placeholder" maxlength="60"></div>
+      <div style="margin-bottom:14px;"><label class="channel-form-label" data-i18n="drive-link-url-label">URL</label><input type="text" id="drive-link-url" class="channel-form-input" placeholder="https://docs.google.com/…" data-i18n-placeholder="drive-link-url-placeholder"></div>
+      <div style="margin-bottom:14px;"><label class="channel-form-label" data-i18n="drive-link-sub-label">Subtítulo</label> <span style="color:var(--text4);font-size:9px;" data-i18n="optional-label">(opcional)</span><input type="text" id="drive-link-sub" class="channel-form-input" placeholder="Ex: Planilha, Dashboard…" data-i18n-placeholder="drive-link-sub-placeholder" maxlength="40"></div>
+      <div style="margin-bottom:18px;">
+        <label class="channel-form-label" data-i18n="drive-link-type-label">Tipo</label>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+          <div class="recurrence-freq-opt" id="link-type-sheet"  onclick="selectLinkType('sheet',this)" data-i18n="link-type-sheet">📊 Planilha</div>
+          <div class="recurrence-freq-opt" id="link-type-doc"    onclick="selectLinkType('doc',this)" data-i18n="link-type-doc">📝 Documento</div>
+          <div class="recurrence-freq-opt" id="link-type-dash"   onclick="selectLinkType('dash',this)" data-i18n="link-type-dash">📈 Dashboard</div>
+          <div class="recurrence-freq-opt" id="link-type-link"   onclick="selectLinkType('link',this)" data-i18n="link-type-link">🔗 Link</div>
+          <div class="recurrence-freq-opt" id="link-type-slides" onclick="selectLinkType('slides',this)" data-i18n="link-type-slides">📋 Slides</div>
+          <div class="recurrence-freq-opt" id="link-type-folder" onclick="selectLinkType('folder',this)" data-i18n="link-type-folder">📁 Pasta</div>
+        </div>
+      </div>
+      <div id="drive-link-progress" class="drive-upload-progress" data-i18n="drive-link-saving">Salvando…</div>
+      <button class="channel-create-btn" id="drive-link-save-btn" onclick="submitDriveLink()" data-i18n="drive-link-add-btn">Adicionar Link</button>
+    </div>
+  </div>
+
+  <!-- ═══ DASHBOARD ═══ -->
+  <section id="page-dashboard" class="page-content">
+    <div class="dash-wrap">
+      <h2 class="dash-title" data-i18n="nav-dashboard">Dashboard</h2>
+      <div id="dash-content"><div class="dash-loading" data-i18n="dash-loading">Carregando indicadores…</div></div>
+    </div>
+  </section>
+
+  <!-- ═══ BI KLAVA (dashboard de vendas, faturamento, pré-venda e estoque) ═══ -->
+  <!-- O BI roda no projeto "BI Klava — Dashboard"; aqui ele é só exibido. O link fica em URL_BI_KLAVA (script.html). -->
+  <section id="page-bi" class="page-content">
+    <div class="bi-frame-bar">
+      <span class="bi-frame-title">KLAVA · BI ÚNICO</span>
+      <a id="bi-abrir-aba" href="#" target="_blank" rel="noopener">Abrir em nova aba ↗</a>
+    </div>
+    <div id="bi-frame-aviso" class="bi-frame-aviso">Carregando o BI…</div>
+    <iframe id="bi-frame" title="Klava BI" allow="clipboard-write"></iframe>
+  </section>
+
+  <!-- ═══ SISTEMAS ═══ -->
+  <section id="page-sistemas" class="page-content">
+    <div class="page-active-flex">
+      <h2 style="font-family:var(--font-display);font-size:42px;text-transform:uppercase;margin-bottom:10px;" data-i18n="sys-title">Sistemas Disponíveis</h2>
+      <div class="content-grid">
+        <a href="https://www.bling.com.br"           target="_blank" class="card"><h3>Bling ERP</h3><p data-i18n="sys-bling">Gestão de pedidos e NFs</p></a>
+        <a href="https://www.bitrix24.com.br"         target="_blank" class="card"><h3>Bitrix24</h3><p data-i18n="sys-bitrix">CRM e Gestão de Processos</p></a>
+        <a href="https://contaazul.com/"              target="_blank" class="card"><h3>Conta Azul</h3><p data-i18n="sys-contaazul">Sistema de controle contábil</p></a>
+        <a href="https://app.mercos.com/login"        target="_blank" class="card"><h3>Mercos</h3><p data-i18n="sys-mercos">Pedidos do Atacado e Indicadores</p></a>
+        <a href="https://accounts.shopify.com/lookup" target="_blank" class="card"><h3>Shopify</h3><p data-i18n="sys-shopify">Gestão de Pedidos E-commerce</p></a>
+        <a href="http://www.mconnect.com.br"          target="_blank" class="card"><h3>Mconnect</h3><p data-i18n="sys-vendas">Portal do Representante</p></a>
+        <a href="https://lookerstudio.google.com"     target="_blank" class="card"><h3>Looker Studio</h3><p data-i18n="sys-looker">Dashboards e Indicadores</p></a>
+        <a href="https://meu.userede.com.br/login"    target="_blank" class="card"><h3>Rede Itaú</h3><p data-i18n="sys-rede">Criação de Links de Pagamento</p></a>
+        <a href="https://dashboard.pagar.me/"         target="_blank" class="card"><h3>Pagar.me</h3><p data-i18n="sys-pagarme">Links de Pagamento e Checkout</p></a>
+        <a href="https://app.yampi.com.br/"           target="_blank" class="card"><h3>Yampi</h3><p data-i18n="sys-financ">Gestão Financeira do Ecomm</p></a>
+        <a href="https://login.appmax.com.br/"        target="_blank" class="card"><h3>Appmax</h3><p data-i18n="sys-receb">Gestão dos Recebimentos Ecomm</p></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CONTATO ═══ -->
+  <section id="page-contato" class="page-content">
+    <div class="page-active-flex">
+      <div style="display:flex;align-items:center;justify-content:space-between;width:100%;max-width:1200px;margin-bottom:10px;flex-wrap:wrap;gap:12px;">
+        <h2 style="font-family:var(--font-display);font-size:42px;text-transform:uppercase;margin:0;" data-i18n="contact-title">Canais de Contato</h2>
+        <button class="kanban-new-btn" id="contact-add-btn" style="display:none;" onclick="openContactFormModal()" data-i18n="contact-add-btn">+ Adicionar Contato</button>
+      </div>
+      <div id="contatos-container" style="width:100%;max-width:1200px;"></div>
+    </div>
+  </section>
+
+  <!-- Modal Detalhe do Contato -->
+  <div id="modal-contact-detail" class="modal" onclick="closeModalOutside(event,'contact-detail')">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal('contact-detail')">&times;</span>
+      <div class="modal-header" id="cdt-nome">—</div>
+      <p style="color:var(--text3);margin:-14px 0 16px;font-size:12px;" id="cdt-cargo">—</p>
+      <a id="cdt-whatsapp" href="#" target="_blank" class="contact-item" style="display:none;"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" class="contact-icon"><span id="cdt-telefone">—</span></a>
+      <div id="cdt-email-wrap" class="contact-item" style="display:none;"><img src="https://cdn-icons-png.flaticon.com/512/542/542689.png" class="contact-icon"><span id="cdt-email">—</span></div>
+      <div id="cdt-admin-actions" style="display:none;margin-top:20px;padding-top:16px;border-top:1px solid #1a1a1a;gap:8px;">
+        <button class="channel-create-btn" style="margin-bottom:8px;" onclick="editContactFromDetail()" data-i18n="contact-edit-btn">Editar</button>
+        <button onclick="confirmDeleteContact()" style="width:100%;background:transparent;border:1px solid #8b0000;color:#e05555;font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:11px;cursor:pointer;" data-i18n="delete-btn">Excluir</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Adicionar/Editar Contato -->
+  <div class="chat-modal" id="contact-form-modal">
+    <div class="chat-modal-box" style="max-width:480px;">
+      <button class="chat-modal-close" onclick="closeContactFormModal()">×</button>
+      <div class="chat-modal-title" id="contact-form-modal-title" data-i18n="contact-form-title-new">Novo Contato</div>
+      <input type="hidden" id="contact-form-id">
+      <div class="channel-form-field"><label class="channel-form-label" data-i18n="contact-field-name">Nome</label><input type="text" id="contact-form-name" class="channel-form-input" placeholder="Nome completo" data-i18n-placeholder="contact-name-placeholder" maxlength="60"></div>
+      <div class="channel-form-field"><label class="channel-form-label" data-i18n="contact-field-role">Cargo</label><input type="text" id="contact-form-role" class="channel-form-input" placeholder="Ex: Coordenador Financeiro" data-i18n-placeholder="contact-role-placeholder" maxlength="60"></div>
+      <div class="channel-form-field">
+        <label class="channel-form-label" data-i18n="contact-field-role-en">Cargo em Inglês</label>
+        <input type="text" id="contact-form-role-en" class="channel-form-input" placeholder="E.g.: Finance Coordinator" maxlength="60">
+      </div>
+      <div class="channel-form-field">
+        <label class="channel-form-label" data-i18n="contact-field-role-zh">Cargo em Chinês</label>
+        <input type="text" id="contact-form-role-zh" class="channel-form-input" placeholder="例如：财务协调员" maxlength="60">
+        <div style="font-size:10px;color:#444;margin-top:4px;letter-spacing:0.5px;" data-i18n="contact-role-translation-hint">Se preenchido, será exibido quando o usuário escolher EN/ZH.</div>
+      </div>
+      <div class="channel-form-field">
+        <label class="channel-form-label" data-i18n="contact-field-sector">Setor</label>
+        <select id="contact-form-sector" class="channel-form-input" onchange="onContactSectorChange()">
+          <option value="board" data-i18n="sec-board">DIRETORIA</option>
+          <option value="wholesale" data-i18n="sec-wholesale">COMERCIAL ATACADO</option>
+          <option value="finance" data-i18n="sec-finance">FINANCEIRO</option>
+          <option value="design" data-i18n="sec-design-title">DESIGN E PROJETOS</option>
+          <option value="logistics" data-i18n="sec-logistics">LOGÍSTICA</option>
+          <option value="import" data-i18n="sec-import">PROCESSO DE IMPORTAÇÃO</option>
+          <option value="salesops" data-i18n="sec-salesops">SALES OPS.</option>
+          <option value="__custom__" data-i18n="contact-sector-custom-option">+ Outro setor (digitar)</option>
+        </select>
+        <div id="contact-form-sector-custom-wrap" style="display:none;margin-top:8px;">
+          <input type="text" id="contact-form-sector-custom" class="channel-form-input" placeholder="Digite o nome do setor…" data-i18n-placeholder="contact-sector-custom-placeholder" maxlength="40">
+        </div>
+      </div>
+      <div class="channel-form-field"><label class="channel-form-label" data-i18n="contact-field-phone">Telefone (WhatsApp)</label><input type="text" id="contact-form-phone" class="channel-form-input" placeholder="+55 11 91234-5678" data-i18n-placeholder="contact-phone-placeholder" maxlength="30"></div>
+      <div class="channel-form-field"><label class="channel-form-label" data-i18n="contact-field-email">E-mail</label><input type="text" id="contact-form-email" class="channel-form-input" placeholder="nome@klavabrands.com" data-i18n-placeholder="contact-email-placeholder" maxlength="80"></div>
+      <button class="channel-create-btn" id="contact-form-save-btn" onclick="submitContactForm()" data-i18n="contact-save-btn">Salvar Contato</button>
+    </div>
+  </div>
+
+  <!-- Modal Pergunte à Intranet (IA) -->
+  <div class="chat-modal" id="ai-ask-modal">
+    <div class="chat-modal-box" style="max-width:560px;">
+      <button class="chat-modal-close" onclick="closeAiAskModal()">×</button>
+      <div class="chat-modal-title" data-i18n="ai-ask-title">🤖 Pergunte à Intranet</div>
+      <p style="font-size:11px;color:var(--text3);margin:-10px 0 14px;" data-i18n="ai-ask-subtitle">Busca em tarefas, Drive e chat, e responde com IA.</p>
+      <textarea id="ai-ask-input" rows="2" placeholder="Ex: Qual o status do contrato da Ecko?" data-i18n-placeholder="ai-ask-placeholder" onkeydown="handleAiAskKey(event)"
+        style="width:100%;background:var(--input-bg);border:1px solid var(--border);color:var(--text);font-size:13px;padding:10px 14px;outline:none;resize:vertical;box-sizing:border-box;font-family:inherit;"></textarea>
+      <button class="channel-create-btn" id="ai-ask-submit-btn" onclick="submitAiAsk()" data-i18n="ai-ask-submit-btn">Perguntar</button>
+      <div id="ai-ask-answer" style="margin-top:16px;"></div>
+    </div>
+  </div>
+
+  <!-- ═══ TAREFAS ═══ -->
+  <section id="page-tarefas" class="page-content">
+    <div style="display:flex;flex-direction:column;flex:1;overflow:hidden;height:calc(100vh - 68px - 73px);">
+      <div class="kanban-topbar">
+        <h2 class="kanban-title" data-i18n="tasks-title">Tarefas</h2>
+        <button class="kanban-new-btn" onclick="openTaskModal()" data-i18n="kanban-new-task-btn">+ Nova Tarefa</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;padding:14px 40px 0;flex-wrap:wrap;">
+        <span class="kanban-filter-label" data-i18n="kanban-filter-label">Filtrar:</span>
+        <button class="kanban-filter-btn active" onclick="filterTasks('todas',this)" data-i18n="filter-all">Todas</button>
+        <button class="kanban-filter-btn"        onclick="filterTasks('minhas',this)" data-i18n="filter-mine">Minhas</button>
+        <button class="kanban-filter-btn"        onclick="filterTasks('solicitadas',this)" data-i18n="filter-requested">Solicitadas por mim</button>
+        <button class="kanban-filter-btn"        onclick="filterTasks('alta',this)" style="border-color:#e05555;color:#e05555;" data-i18n="filter-high-priority">Alta prioridade</button>
+        <button class="kanban-filter-btn"        onclick="filterTasks('recorrentes',this)" style="border-color:#3b82f6;color:#3b82f6;" data-i18n="filter-recurring">🔁 Recorrentes</button>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+          <input type="text" id="kanban-search" class="kanban-search-input" placeholder="Buscar por número ou título…" data-i18n-placeholder="kanban-search-placeholder" oninput="onKanbanSearch(this.value)" autocomplete="off"/>
+          <button class="kanban-search-clear" id="kanban-search-clear" onclick="clearKanbanSearch()" style="display:none;">✕</button>
+          <span class="kanban-search-result-count" id="kanban-search-count" style="display:none;"></span>
+        </div>
+      </div>
+      <div class="kanban-board" id="kanban-board">
+        <div class="kanban-col"><div class="kanban-col-header"><span class="kanban-col-title col-todo" data-i18n="tasks-col-todo">A Fazer</span><span class="kanban-col-count" id="count-todo">0</span></div><div class="kanban-cards" id="cards-todo"><div class="kanban-empty" data-i18n="kanban-empty">Nenhuma tarefa</div></div></div>
+        <div class="kanban-col"><div class="kanban-col-header"><span class="kanban-col-title col-doing" data-i18n="tasks-col-doing">Em Andamento</span><span class="kanban-col-count" id="count-doing">0</span></div><div class="kanban-cards" id="cards-doing"><div class="kanban-empty" data-i18n="kanban-empty">Nenhuma tarefa</div></div></div>
+        <div class="kanban-col"><div class="kanban-col-header"><span class="kanban-col-title col-done" data-i18n="tasks-col-done">Concluído</span><span class="kanban-col-count" id="count-done">0</span></div><div class="kanban-cards" id="cards-done"><div class="kanban-empty" data-i18n="kanban-empty">Nenhuma tarefa</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CHAT ═══ -->
+  <section id="page-chat" class="page-content">
+    <div class="chat-layout">
+      <div class="chat-sidebar">
+        <div class="chat-sidebar-title" data-i18n="chat-sidebar-title">Canais</div>
+        <div class="chat-channel-item active" id="ch-geral" onclick="selectChannel('geral','#',t('chat-general-desc'))">
+          <span class="ch-icon">#</span><span class="ch-label" data-i18n="chat-general-label">geral</span>
+        </div>
+        <div class="dm-section-label">
+          <span data-i18n="chat-team-channels">Canais da Equipe</span>
+          <button class="dm-new-btn" onclick="openCreateChannelModal()" title="Criar canal" data-i18n-title="chat-create-channel-title">＋</button>
+        </div>
+        <div id="named-channel-list"></div>
+        <div class="chat-sidebar-sep"></div>
+        <div class="dm-section-label">
+          <span data-i18n="chat-direct-messages">Mensagens Diretas</span>
+          <button class="dm-new-btn" onclick="openDmModal()" title="Nova conversa" data-i18n-title="chat-new-conversation-title">＋</button>
+        </div>
+        <div id="dm-list"></div>
+      </div>
+      <div class="chat-main">
+        <div class="chat-topbar">
+          <span id="chat-ch-icon" style="color:#444;font-size:16px;">#</span>
+          <span class="chat-topbar-name" id="chat-ch-name">geral</span>
+          <span class="chat-topbar-sub" id="chat-ch-sub" data-i18n="chat-team-channel-sub">Canal da empresa · todos os membros</span>
+          <button class="video-call-btn" id="video-call-btn" onclick="startVideoCall()" title="Iniciar videochamada" data-i18n-title="video-call-start-title">
+            📹 <span data-i18n="video-call-label">Chamada</span>
+          </button>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+          <div class="chat-empty" id="chat-empty"><span class="chat-empty-icon">💬</span><span data-i18n="chat-empty">Nenhuma mensagem ainda</span></div>
+        </div>
+        <div class="chat-typing" id="chat-typing"></div>
+        <div class="chat-file-preview" id="chat-file-preview">
+          <span class="chat-file-icon">📎</span>
+          <span class="chat-file-preview-name" id="chat-file-preview-name"></span>
+          <span class="chat-file-preview-remove" onclick="clearFileSelection()">✕</span>
+        </div>
+        <div class="upload-progress" id="upload-progress" data-i18n="chat-uploading-file">Enviando arquivo...</div>
+        <div class="chat-input-area">
+          <button class="chat-attach-btn" onclick="document.getElementById('chat-file-input').click()">📎</button>
+          <input type="file" id="chat-file-input" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.zip,.rar" onchange="onFileSelected(event)">
+          <textarea class="chat-input" id="chat-input" rows="1" placeholder="Mensagem… (use @ para mencionar)" data-i18n-placeholder="chat-input-placeholder" onkeydown="handleChatKey(event)" oninput="handleChatInput(event)"></textarea>
+          <button class="chat-send-btn" onclick="sendMessage()" data-i18n="chat-send-btn">ENVIAR</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- @menções -->
+  <div id="mention-box"></div>
+
+  <!-- Modal Nova DM -->
+  <div class="chat-modal" id="dm-modal">
+    <div class="chat-modal-box">
+      <button class="chat-modal-close" onclick="closeDmModal()">×</button>
+      <div class="chat-modal-title" data-i18n="dm-modal-title">Nova Mensagem Direta</div>
+      <input type="text" id="dm-search" placeholder="Pesquisar..." data-i18n-placeholder="dm-search-placeholder" onkeyup="filterDmUsers()">
+      <div class="dm-user-list" id="dm-user-list"></div>
+    </div>
+  </div>
+
+  <!-- Modal Criar Canal -->
+  <div class="chat-modal" id="create-channel-modal">
+    <div class="chat-modal-box">
+      <button class="chat-modal-close" onclick="closeCreateChannelModal()">×</button>
+      <div class="chat-modal-title" data-i18n="create-channel-title">🏷 Criar Canal</div>
+      <div class="channel-form-field"><label class="channel-form-label" data-i18n="channel-name-label">Nome do Canal</label><input type="text" id="channel-name-input" class="channel-form-input" placeholder="ex: design-ecko…" data-i18n-placeholder="channel-name-placeholder" maxlength="40"></div>
+      <div class="channel-form-field"><label class="channel-form-label" data-i18n="channel-desc-label-optional">Descrição (opcional)</label><input type="text" id="channel-desc-input" class="channel-form-input" placeholder="Sobre o que é este canal?" data-i18n-placeholder="channel-desc-placeholder"></div>
+      <div class="channel-form-field">
+        <label class="channel-form-label" data-i18n="channel-members-label">Membros</label>
+        <div class="channel-member-tags" id="channel-member-tags"></div>
+        <input type="text" id="channel-member-search" placeholder="Adicionar membro…" data-i18n-placeholder="channel-member-search-placeholder" onkeyup="filterChannelMembers()">
+        <div class="dm-user-list" id="channel-member-list" style="max-height:180px;"></div>
+      </div>
+      <button class="channel-create-btn" id="channel-create-btn" onclick="submitCreateChannel()" data-i18n="channel-create-btn">Criar Canal</button>
+    </div>
+  </div>
+
+  <!-- Modal Editar Canal -->
+  <div class="chat-modal" id="edit-channel-modal">
+    <div class="chat-modal-box">
+      <button class="chat-modal-close" onclick="closeEditChannelModal()">×</button>
+      <div class="chat-modal-title" id="edit-channel-modal-title">✏️ Editar Canal</div>
+      <div class="channel-form-field"><label class="channel-form-label" data-i18n="channel-name-label">Nome do Canal</label><input type="text" id="edit-channel-name" class="channel-form-input" maxlength="40"></div>
+      <div class="channel-form-field"><label class="channel-form-label" data-i18n="channel-desc-label">Descrição</label><input type="text" id="edit-channel-desc" class="channel-form-input"></div>
+      <div class="channel-form-field">
+        <label class="channel-form-label" data-i18n="channel-members-label">Membros</label>
+        <div class="channel-member-tags" id="edit-channel-member-tags"></div>
+        <input type="text" id="edit-channel-member-search" placeholder="Adicionar membro…" data-i18n-placeholder="channel-member-search-placeholder" onkeyup="filterEditChannelMembers()">
+        <div class="dm-user-list" id="edit-channel-member-list" style="max-height:160px;"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:20px;padding-top:16px;border-top:1px solid #1a1a1a;">
+        <button class="channel-create-btn" id="edit-channel-save-btn" onclick="submitEditChannel()" data-i18n="save-changes-btn">Salvar Alterações</button>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;">
+          <button id="edit-channel-leave-btn" onclick="confirmLeaveChannel()" style="background:transparent;border:1px solid #333;color:#666;font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:11px;cursor:pointer;" data-i18n="leave-channel-btn">Sair do Canal</button>
+          <button id="edit-channel-delete-btn" onclick="confirmDeleteChannel()" style="background:transparent;border:1px solid #8b0000;color:#e05555;font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:11px;cursor:pointer;" data-i18n="delete-channel-btn">Excluir Canal</button>
+        </div>
+        <p id="edit-channel-owner-note" style="display:none;font-size:10px;color:#333;letter-spacing:1px;text-align:center;margin-top:4px;" data-i18n="owner-note">Você é o criador · apenas você pode editar ou excluir este canal</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modais BI -->
+    <div id="modal-bis" class="modal" onclick="closeModalOutside(event,'bis')"><div class="modal-content"><span class="close-modal" onclick="closeModal('bis')">&times;</span><div class="modal-header" data-i18n="bi-modal-title">BIs e Dashboards</div><a href="#" onclick="closeModal('bis');showPage('bi');return false;" class="bi-link-item"><span>KLAVA - BI ÚNICO</span><small data-i18n="bi-link-sub">VENDAS · FATURAMENTO · ESTOQUE</small></a></div></div>
+
+
+  <!-- Modal Editar Tarefa -->
+  <div class="task-modal" id="edit-task-modal">
+    <div class="task-modal-box">
+      <button class="task-modal-close" onclick="closeEditTaskModal()">×</button>
+      <div class="task-modal-title" data-i18n="edit-task-title">Editar Tarefa</div>
+      <input type="hidden" id="edit-task-id">
+      <div class="task-field"><label data-i18n="task-field-title">Título</label><input type="text" id="edit-task-titulo" placeholder="Título da tarefa" data-i18n-placeholder="task-title-placeholder"></div>
+      <div class="task-field"><label data-i18n="task-field-desc">Descrição</label><textarea id="edit-task-desc" placeholder="Descreva a tarefa..." data-i18n-placeholder="task-desc-placeholder"></textarea></div>
+      <div class="task-fields-row">
+        <div class="task-field"><label data-i18n="task-field-responsible">Responsável</label><select id="edit-task-responsavel"><option value="" data-i18n="select-default">Selecione...</option></select></div>
+        <div class="task-field"><label data-i18n="task-field-deadline">Prazo</label><input type="date" id="edit-task-prazo"></div>
+      </div>
+      <div class="task-field">
+        <label data-i18n="task-field-priority">Prioridade</label>
+        <div class="task-priority-group">
+          <div class="task-priority-opt" onclick="selectEditPriority('baixa')" id="edit-prio-baixa" data-i18n="tasks-prio-low">Baixa</div>
+          <div class="task-priority-opt" onclick="selectEditPriority('media')" id="edit-prio-media" data-i18n="tasks-prio-mid">Média</div>
+          <div class="task-priority-opt" onclick="selectEditPriority('alta')"  id="edit-prio-alta" data-i18n="tasks-prio-high">Alta</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px;">
+        <button class="task-submit-btn" id="edit-task-save-btn" onclick="submitEditTask()" style="flex:2;" data-i18n="save-changes-btn">Salvar Alterações</button>
+        <button onclick="confirmDeleteTask()" style="flex:1;background:transparent;border:1px solid #8b0000;color:#e05555;font-family:var(--font-display);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:16px;cursor:pointer;" onmouseover="this.style.background='rgba(224,85,85,0.1)'" onmouseout="this.style.background='transparent'" data-i18n="delete-btn">Excluir</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal Nova Tarefa -->
+  <div class="task-modal" id="task-modal">
+    <div class="task-modal-box">
+      <button class="task-modal-close" onclick="closeTaskModal()">×</button>
+      <div class="task-modal-title" data-i18n="task-modal-title-new">Nova Tarefa</div>
+      <div class="task-field"><label data-i18n="task-field-unit">Unidade de Negócio</label><select id="task-unidade" onchange="updateMarcas()"><option value="" data-i18n="select-default">Selecione...</option><option value="private" data-i18n="unit-private">PRIVATE LABEL</option><option value="atacado" data-i18n="unit-atacado">ATACADO</option><option value="ecomm" data-i18n="unit-ecomm">ECOMM</option></select></div>
+      <div class="task-field">
+        <label data-i18n="task-field-brand">Marca / Cliente</label>
+        <select id="task-marca"><option value="" data-i18n="task-brand-select-first">Selecione a unidade primeiro...</option></select>
+        <div id="task-marca-custom-wrap" style="display:none;margin-top:8px;">
+          <input type="text" id="task-marca-custom" placeholder="Digite o nome do cliente…" data-i18n-placeholder="task-brand-custom-placeholder" style="width:100%;background:var(--input-bg);border:1px solid var(--border);color:var(--text);font-size:13px;padding:10px 14px;outline:none;" maxlength="40">
+          <div style="font-size:10px;color:#444;margin-top:4px;letter-spacing:1px;" data-i18n="task-brand-prefix-note">Prefixo gerado automaticamente.</div>
+        </div>
+      </div>
+      <div class="task-field"><label data-i18n="task-field-title">Título</label><input type="text" id="task-titulo" placeholder="Título da tarefa" data-i18n-placeholder="task-title-placeholder"></div>
+      <div class="task-field"><label data-i18n="task-field-desc">Descrição</label><textarea id="task-desc" placeholder="Descreva a tarefa..." data-i18n-placeholder="task-desc-placeholder"></textarea></div>
+      <div class="task-fields-row">
+        <div class="task-field"><label data-i18n="task-field-responsible">Responsável</label><select id="task-responsavel"><option value="" data-i18n="select-default">Selecione...</option></select></div>
+        <div class="task-field"><label data-i18n="task-field-deadline-first">Prazo (1ª ocorrência)</label><input type="date" id="task-prazo"></div>
+      </div>
+      <div class="task-field">
+        <label data-i18n="task-field-priority">Prioridade</label>
+        <div class="task-priority-group">
+          <div class="task-priority-opt" onclick="selectPriority('baixa')" id="prio-baixa" data-i18n="tasks-prio-low">Baixa</div>
+          <div class="task-priority-opt" onclick="selectPriority('media')" id="prio-media" data-i18n="tasks-prio-mid">Média</div>
+          <div class="task-priority-opt" onclick="selectPriority('alta')"  id="prio-alta" data-i18n="tasks-prio-high">Alta</div>
+        </div>
+      </div>
+      <div class="recurrence-section">
+        <div class="recurrence-toggle" onclick="toggleRecurrence()">
+          <span class="recurrence-toggle-label" data-i18n="recurrence-toggle-label">🔁 Tarefa Recorrente</span>
+          <label class="recurrence-toggle-switch" onclick="event.stopPropagation()">
+            <input type="checkbox" id="recurrence-toggle-input" onchange="toggleRecurrence()">
+            <span class="recurrence-slider"></span>
+          </label>
+        </div>
+        <div class="recurrence-options" id="recurrence-options">
+          <div style="margin-bottom:10px;">
+            <div class="channel-form-label" style="margin-bottom:6px;" data-i18n="recurrence-frequency-label">Frequência</div>
+            <div class="recurrence-freq-group">
+              <div class="recurrence-freq-opt" onclick="selectFreq('diaria',this)" data-i18n="recurrence-daily">Diária</div>
+              <div class="recurrence-freq-opt" onclick="selectFreq('semanal',this)" data-i18n="recurrence-weekly">Semanal</div>
+              <div class="recurrence-freq-opt" onclick="selectFreq('quinzenal',this)" data-i18n="recurrence-biweekly">Quinzenal</div>
+              <div class="recurrence-freq-opt" onclick="selectFreq('mensal',this)" data-i18n="recurrence-monthly">Mensal</div>
+            </div>
+          </div>
+          <div class="recurrence-count-row">
+            <span class="recurrence-count-label" data-i18n="recurrence-repeat-label">Repetir</span>
+            <input type="number" id="recurrence-count" class="recurrence-count-input" value="4" min="2" max="52" oninput="updateRecurrencePreview()">
+            <span class="recurrence-count-label" data-i18n="recurrence-times-label">vezes</span>
+          </div>
+          <div class="recurrence-preview" id="recurrence-preview" data-i18n="recurrence-preview-default">Selecione a frequência e o prazo para ver as datas</div>
+        </div>
+      </div>
+      <div class="task-field">
+        <label data-i18n="task-attach-label">Anexos</label> <span style="color:#333;font-size:9px;" data-i18n="task-attach-optional">(opcional · máx. 5)</span>
+        <div class="task-attach-area" onclick="document.getElementById('task-file-input').click()">
+          <span class="task-attach-icon">📎</span>
+          <span class="task-attach-label" data-i18n="task-attach-click">Clique para adicionar arquivos</span>
+        </div>
+        <input type="file" id="task-file-input" multiple accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.zip,.rar" style="display:none" onchange="onTaskFileSelected(event)">
+        <div class="task-attach-list" id="task-attach-list"></div>
+        <div class="task-upload-status" id="task-upload-status" data-i18n="task-uploading-attachments">Enviando anexos...</div>
+      </div>
+      <button class="task-submit-btn" id="task-submit-btn" onclick="submitTask()" data-i18n="task-create-btn">Criar Tarefa</button>
+    </div>
+  </div>
+
+  <!-- Modal Detalhe Card -->
+  <div class="card-detail-modal" id="card-detail-modal">
+    <div class="card-detail-box">
+      <div class="card-detail-header">
+        <div class="card-detail-header-left">
+          <div class="card-detail-number" id="cdm-number">—</div>
+          <div class="card-detail-title"  id="cdm-title">—</div>
+        </div>
+        <button class="card-detail-close" onclick="closeCardDetailModal()">×</button>
+      </div>
+      <div class="card-detail-body">
+        <div class="card-detail-badges" id="cdm-badges"></div>
+        <div class="card-detail-section" id="cdm-desc-section">
+          <div class="card-detail-section-title" data-i18n="card-detail-desc-title">Descrição</div>
+          <div class="card-detail-desc" id="cdm-desc">—</div>
+        </div>
+        <div class="card-detail-section">
+          <div class="card-detail-section-title" data-i18n="card-detail-info-title">Informações</div>
+          <div class="card-detail-grid">
+            <div class="card-detail-field"><span class="card-detail-field-label" data-i18n="card-detail-field-responsavel">Responsável</span><span class="card-detail-field-value" id="cdm-responsavel">—</span></div>
+            <div class="card-detail-field"><span class="card-detail-field-label" data-i18n="card-detail-field-solicitante">Solicitante</span><span class="card-detail-field-value" id="cdm-solicitante">—</span></div>
+            <div class="card-detail-field"><span class="card-detail-field-label" data-i18n="card-detail-field-prazo">Prazo</span><span class="card-detail-field-value" id="cdm-prazo">—</span></div>
+            <div class="card-detail-field"><span class="card-detail-field-label" data-i18n="card-detail-field-priority">Prioridade</span><span class="card-detail-field-value" id="cdm-prioridade">—</span></div>
+            <div class="card-detail-field"><span class="card-detail-field-label" data-i18n="card-detail-field-created">Criado em</span><span class="card-detail-field-value" id="cdm-criado">—</span></div>
+            <div class="card-detail-field"><span class="card-detail-field-label" data-i18n="card-detail-field-id">ID interno</span><span class="card-detail-field-value" id="cdm-id" style="font-size:10px;color:#333;">—</span></div>
+          </div>
+        </div>
+        <div class="card-detail-section" id="cdm-recurrence-section" style="display:none;">
+          <div class="card-detail-section-title" data-i18n="card-detail-recurrence-title">🔁 Ocorrências Programadas</div>
+          <div class="recurrence-timeline" id="cdm-recurrence-timeline"></div>
+        </div>
+        <div class="card-detail-section">
+          <div class="card-detail-section-title" data-i18n="card-detail-attach-title">Anexos</div>
+          <div class="card-detail-attach-list" id="cdm-attach-list"><div class="card-detail-attach-empty" data-i18n="card-detail-no-attach">Nenhum anexo</div></div>
+          <input type="file" id="cdm-file-input" multiple accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.zip,.rar" style="display:none" onchange="onCdmFileSelected(event)">
+          <button class="attach-add-btn" style="margin-top:10px;" onclick="document.getElementById('cdm-file-input').click()" data-i18n="card-detail-add-attach-btn">+ Adicionar anexo</button>
+          <div class="attach-upload-status" id="cdm-upload-status" data-i18n="uploading-dots">Enviando...</div>
+        </div>
+      </div>
+      <div class="card-detail-section" style="padding:0 32px 20px;">
+        <div class="card-detail-section-title" data-i18n="card-detail-comments-title">Comentários</div>
+        <div class="cdm-comments-list" id="cdm-comments-list">
+          <div class="cdm-comments-empty" id="cdm-comments-empty" data-i18n="cdm-comments-empty">Nenhum comentário ainda</div>
+        </div>
+        <div class="cdm-comment-input-wrap">
+          <textarea class="cdm-comment-input" id="cdm-comment-input" placeholder="Escreva um comentário…" data-i18n-placeholder="card-detail-comment-placeholder" rows="1" onkeydown="handleCommentKey(event)" oninput="autoResizeInput(this)"></textarea>
+          <button class="cdm-comment-send" id="cdm-comment-send-btn" onclick="submitComment()" data-i18n="card-detail-comment-send">Enviar</button>
+        </div>
+      </div>
+      <div class="card-detail-footer" id="cdm-footer"></div>
+    </div>
+  </div>
+
+  <!-- Modal Anexos -->
+  <div class="attach-modal" id="attach-modal">
+    <div class="attach-modal-box">
+      <button class="attach-modal-close" onclick="closeAttachModal()">×</button>
+      <div class="attach-modal-title" data-i18n="attach-modal-title">📎 Anexos</div>
+      <div id="attach-modal-list"></div>
+      <input type="file" id="attach-add-input" multiple accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.zip,.rar" style="display:none" onchange="onAttachAddSelected(event)">
+      <button class="attach-add-btn" onclick="document.getElementById('attach-add-input').click()" data-i18n="attach-add-more-btn">+ Adicionar mais arquivos</button>
+      <div class="attach-upload-status" id="attach-upload-status" data-i18n="uploading-dots">Enviando...</div>
+    </div>
+  </div>
+
+  <!-- Toast Google Meet -->
+  <div id="meet-toast" style="display:none;position:fixed;bottom:28px;right:28px;z-index:9000;background:var(--modal-bg);border:1px solid var(--border2);padding:20px 24px;max-width:340px;box-shadow:0 8px 40px rgba(0,0,0,0.85);">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+      <span style="font-size:20px;">📹</span>
+      <span style="font-family:var(--font-display);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff;" id="meet-toast-title" data-i18n="meet-toast-default-title">Chamada iniciada</span>
+      <button onclick="closeMeetToast()" style="margin-left:auto;background:none;border:none;color:#555;font-size:20px;cursor:pointer;line-height:1;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#555'">✕</button>
+    </div>
+    <p style="font-size:11px;color:#555;margin-bottom:16px;line-height:1.6;" data-i18n="meet-toast-desc">Link enviado no chat. Participantes receberam convite por e-mail.</p>
+    <a id="meet-toast-link" href="#" target="_blank" style="display:block;text-align:center;background:#1a73e8;color:#fff;font-family:var(--font-display);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:13px;text-decoration:none;transition:background .2s;" onmouseover="this.style.background='#1557b0'" onmouseout="this.style.background='#1a73e8'"><span data-i18n="meet-toast-join">🔗 Entrar na chamada agora</span></a>
+  </div>
+
+  <!-- Toast container DM -->
+  <div id="dm-toast-container"></div>
+
+  <!-- Emoji Picker -->
+  <div id="emoji-picker" class="emoji-picker">
+    <input type="text" class="emoji-picker-search" id="emoji-search" placeholder="Buscar emoji…" data-i18n-placeholder="emoji-search-placeholder" oninput="filterEmojis(this.value)">
+    <div class="emoji-grid" id="emoji-grid"></div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div style="font-size:10px;color:var(--text3);">© 2026 KLAVA BRANDS GROUP</div>
+    <div class="lang-selector">
+      <button class="lang-btn active" id="btn-pt" onclick="setLanguage('pt')">PT</button>
+      <button class="lang-btn"        id="btn-en" onclick="setLanguage('en')">EN</button>
+      <button class="lang-btn"        id="btn-zh" onclick="setLanguage('zh')">ZH</button>
+    </div>
+  </footer>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <!-- Login + camada de compatibilidade; carrega public/legado/app.js depois do login -->
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
