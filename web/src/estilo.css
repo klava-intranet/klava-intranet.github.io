@@ -20,3 +20,14 @@
 /* Aviso de módulo ainda em migração */
 .aviso-migracao { margin: 0 0 16px; padding: 12px 16px; border: 1px solid #b4530966; background: #b4530914; color: var(--text2); border-radius: 6px; font-size: 13px; line-height: 1.5; }
 .aviso-migracao strong { color: var(--text); }
+
+/* Sistemas Disponíveis — cards editáveis (admin) */
+.card-sistema { position: relative; }
+.card-sistema-editar { position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--border2); background: var(--card-bg); color: var(--text3); font-size: 13px; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: opacity .2s, border-color .2s, color .2s; }
+.card-sistema:hover .card-sistema-editar, .card-sistema-editar:focus { opacity: 1; }
+.card-sistema-editar:hover { border-color: var(--text); color: var(--text); }
+@media (hover: none) { .card-sistema-editar { opacity: 1; } }
+.sistema-dica { font-size: 10px; color: var(--text3); margin-top: 4px; letter-spacing: .5px; }
+.sistema-excluir-btn { width: 100%; margin-top: 10px; padding: 10px; background: transparent; border: 1px solid #e0555566; color: #e05555; font-family: var(--font-display); font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; }
+.sistema-excluir-btn:hover { background: #e0555514; border-color: #e05555; }
+.sistema-vazio { grid-column: 1 / -1; text-align: center; color: var(--text3); font-size: 12px; letter-spacing: 1px; padding: 40px 0; }

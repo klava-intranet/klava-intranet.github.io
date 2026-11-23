@@ -1,5 +1,6 @@
 import { entrarComGoogle, sair, carregarSessao } from './lib/auth.js';
 import { instalarShim, iniciarRealtime } from './shim/gas.js';
+import { iniciarSistemas } from './modulos/sistemas.js';
 
 const $ = (id) => document.getElementById(id);
 const mostrarTela = (id) => ['tela-carregando', 'tela-login', 'tela-sem-acesso'].forEach((t) => ($(t).hidden = t !== id));
@@ -46,6 +47,7 @@ async function iniciar() {
   await carregarScript(`${import.meta.env.BASE_URL}legado/app.js`);
   document.dispatchEvent(new Event('DOMContentLoaded'));
   instalarAvisos();
+  iniciarSistemas(perfil);
   window.getUser();
   iniciarRealtime();
 

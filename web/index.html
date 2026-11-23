@@ -298,22 +298,34 @@
   <!-- ═══ SISTEMAS ═══ -->
   <section id="page-sistemas" class="page-content">
     <div class="page-active-flex">
-      <h2 style="font-family:var(--font-display);font-size:42px;text-transform:uppercase;margin-bottom:10px;" data-i18n="sys-title">Sistemas Disponíveis</h2>
-      <div class="content-grid">
-        <a href="https://www.bling.com.br"           target="_blank" class="card"><h3>Bling ERP</h3><p data-i18n="sys-bling">Gestão de pedidos e NFs</p></a>
-        <a href="https://www.bitrix24.com.br"         target="_blank" class="card"><h3>Bitrix24</h3><p data-i18n="sys-bitrix">CRM e Gestão de Processos</p></a>
-        <a href="https://contaazul.com/"              target="_blank" class="card"><h3>Conta Azul</h3><p data-i18n="sys-contaazul">Sistema de controle contábil</p></a>
-        <a href="https://app.mercos.com/login"        target="_blank" class="card"><h3>Mercos</h3><p data-i18n="sys-mercos">Pedidos do Atacado e Indicadores</p></a>
-        <a href="https://accounts.shopify.com/lookup" target="_blank" class="card"><h3>Shopify</h3><p data-i18n="sys-shopify">Gestão de Pedidos E-commerce</p></a>
-        <a href="http://www.mconnect.com.br"          target="_blank" class="card"><h3>Mconnect</h3><p data-i18n="sys-vendas">Portal do Representante</p></a>
-        <a href="https://lookerstudio.google.com"     target="_blank" class="card"><h3>Looker Studio</h3><p data-i18n="sys-looker">Dashboards e Indicadores</p></a>
-        <a href="https://meu.userede.com.br/login"    target="_blank" class="card"><h3>Rede Itaú</h3><p data-i18n="sys-rede">Criação de Links de Pagamento</p></a>
-        <a href="https://dashboard.pagar.me/"         target="_blank" class="card"><h3>Pagar.me</h3><p data-i18n="sys-pagarme">Links de Pagamento e Checkout</p></a>
-        <a href="https://app.yampi.com.br/"           target="_blank" class="card"><h3>Yampi</h3><p data-i18n="sys-financ">Gestão Financeira do Ecomm</p></a>
-        <a href="https://login.appmax.com.br/"        target="_blank" class="card"><h3>Appmax</h3><p data-i18n="sys-receb">Gestão dos Recebimentos Ecomm</p></a>
+      <div style="display:flex;align-items:center;justify-content:space-between;width:100%;max-width:1200px;margin-bottom:10px;flex-wrap:wrap;gap:12px;">
+        <h2 style="font-family:var(--font-display);font-size:42px;text-transform:uppercase;margin:0;" data-i18n="sys-title">Sistemas Disponíveis</h2>
+        <button class="kanban-new-btn" id="sistema-add-btn" style="display:none;">+ Incluir</button>
       </div>
+      <!-- Cards vêm da tabela intranet.sistemas (src/modulos/sistemas.js) -->
+      <div class="content-grid" id="sistemas-grid"></div>
     </div>
   </section>
+
+  <!-- Modal Sistema (incluir / editar) — só admins -->
+  <div class="chat-modal" id="sistema-form-modal">
+    <div class="chat-modal-box" style="max-width:480px;">
+      <button class="chat-modal-close" id="sistema-form-fechar">×</button>
+      <div class="chat-modal-title" id="sistema-form-titulo">Incluir Sistema</div>
+      <input type="hidden" id="sistema-form-id">
+      <div class="channel-form-field"><label class="channel-form-label" data-sis="nome">Nome</label><input type="text" id="sistema-form-nome" class="channel-form-input" maxlength="60" placeholder="Ex: Bling ERP"></div>
+      <div class="channel-form-field"><label class="channel-form-label" data-sis="url">Link</label><input type="url" id="sistema-form-url" class="channel-form-input" maxlength="300" placeholder="https://..."></div>
+      <div class="channel-form-field"><label class="channel-form-label" data-sis="desc">Descrição</label><input type="text" id="sistema-form-desc" class="channel-form-input" maxlength="80" placeholder="Ex: Gestão de pedidos e NFs"></div>
+      <div class="channel-form-field"><label class="channel-form-label" data-sis="descEn">Descrição em Inglês</label><input type="text" id="sistema-form-desc-en" class="channel-form-input" maxlength="80" placeholder="E.g.: Order & invoice management"></div>
+      <div class="channel-form-field">
+        <label class="channel-form-label" data-sis="descZh">Descrição em Chinês</label>
+        <input type="text" id="sistema-form-desc-zh" class="channel-form-input" maxlength="80" placeholder="例如：订单和发票管理">
+        <div class="sistema-dica" data-sis="dica">Se as traduções ficarem vazias, aparece a descrição em português.</div>
+      </div>
+      <button class="channel-create-btn" id="sistema-form-salvar">Salvar</button>
+      <button class="sistema-excluir-btn" id="sistema-form-excluir" style="display:none;">Excluir sistema</button>
+    </div>
+  </div>
 
   <!-- ═══ CONTATO ═══ -->
   <section id="page-contato" class="page-content">
