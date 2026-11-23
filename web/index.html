@@ -315,6 +315,16 @@
       <input type="hidden" id="sistema-form-id">
       <div class="channel-form-field"><label class="channel-form-label" data-sis="nome">Nome</label><input type="text" id="sistema-form-nome" class="channel-form-input" maxlength="60" placeholder="Ex: Bling ERP"></div>
       <div class="channel-form-field"><label class="channel-form-label" data-sis="url">Link</label><input type="url" id="sistema-form-url" class="channel-form-input" maxlength="300" placeholder="https://..."></div>
+      <div class="channel-form-field">
+        <label class="channel-form-label" data-sis="logo">Logo</label>
+        <div class="sistema-logo-campo">
+          <div class="sistema-logo-previa" id="sistema-form-logo-previa"></div>
+          <button type="button" class="sistema-logo-btn" id="sistema-form-logo-escolher" data-sis="escolher">Escolher imagem</button>
+          <button type="button" class="sistema-logo-btn" id="sistema-form-logo-remover" data-sis="remover">Remover</button>
+          <input type="file" id="sistema-form-logo" accept="image/png,image/jpeg,image/webp,image/svg+xml,image/gif,image/x-icon" hidden>
+        </div>
+        <div class="sistema-dica" data-sis="dicaLogo">PNG, SVG ou WEBP quadrado, até 1 MB (ideal: 128×128 px ou maior).</div>
+      </div>
       <div class="channel-form-field"><label class="channel-form-label" data-sis="desc">Descrição</label><input type="text" id="sistema-form-desc" class="channel-form-input" maxlength="80" placeholder="Ex: Gestão de pedidos e NFs"></div>
       <div class="channel-form-field"><label class="channel-form-label" data-sis="descEn">Descrição em Inglês</label><input type="text" id="sistema-form-desc-en" class="channel-form-input" maxlength="80" placeholder="E.g.: Order & invoice management"></div>
       <div class="channel-form-field">
