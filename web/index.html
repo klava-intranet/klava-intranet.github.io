@@ -49,6 +49,7 @@
       <li><a onclick="showPage('hero')"      data-i18n="nav-home">Início</a></li>
       <li><a onclick="showPage('setores')"   data-i18n="nav-sectors">Setores</a></li>
       <li><a onclick="showPage('drive')"     data-i18n="nav-drive">Drive</a></li>
+      <li><a onclick="showPage('catalogos')" data-i18n="nav-catalogs">Catálogos</a></li>
       <li><a onclick="showPage('wiki')"      data-i18n="nav-wiki">Wiki</a></li>
       <li><a onclick="showPage('sistemas')"  data-i18n="nav-systems">Sistemas</a></li>
       <li><a onclick="openModal('bis')"      data-i18n="nav-bi">BIs e Dashboards</a></li>
@@ -306,6 +307,46 @@
       <div class="content-grid" id="sistemas-grid"></div>
     </div>
   </section>
+
+  <!-- ═══ CATÁLOGOS (src/modulos/catalogos.js) ═══ -->
+  <section id="page-catalogos" class="page-content">
+    <div class="page-active-flex">
+      <div class="cat-topo">
+        <h2 style="font-family:var(--font-display);font-size:42px;text-transform:uppercase;margin:0;" data-i18n="cat-title">Catálogos</h2>
+        <button class="kanban-new-btn" id="catalogo-add-btn">+ Inserir</button>
+      </div>
+      <div class="cat-filtros">
+        <select id="catalogo-filtro-marca" class="channel-form-input"></select>
+        <input type="search" id="catalogo-busca" class="channel-form-input" placeholder="Buscar catálogo…">
+      </div>
+      <div id="catalogos-lista" class="cat-lista"></div>
+    </div>
+  </section>
+
+  <!-- Modal Catálogo (inserir / editar) -->
+  <div class="chat-modal" id="catalogo-form-modal">
+    <div class="chat-modal-box" style="max-width:480px;">
+      <button class="chat-modal-close" id="catalogo-form-fechar">×</button>
+      <div class="chat-modal-title" id="catalogo-form-titulo">Inserir Catálogo</div>
+      <input type="hidden" id="catalogo-form-id">
+      <div class="channel-form-field"><label class="channel-form-label" data-cat="marca">Marca</label>
+        <input type="text" id="catalogo-form-marca" class="channel-form-input" list="catalogo-marcas" maxlength="60" placeholder="Ex: Flowfa">
+        <datalist id="catalogo-marcas"></datalist></div>
+      <div class="channel-form-field"><label class="channel-form-label" data-cat="tituloCampo">Título / Coleção</label>
+        <input type="text" id="catalogo-form-nome" class="channel-form-input" maxlength="120" placeholder="Ex: Verão 2027"></div>
+      <div class="channel-form-field"><label class="channel-form-label" data-cat="data">Data de publicação</label>
+        <input type="date" id="catalogo-form-data" class="channel-form-input"></div>
+      <div class="channel-form-field"><label class="channel-form-label" data-cat="arquivo">Arquivo</label>
+        <div class="cat-arquivo-campo">
+          <button type="button" class="sistema-logo-btn" id="catalogo-form-escolher" data-cat="escolher">Escolher arquivo</button>
+          <span id="catalogo-form-arquivo-nome" class="cat-arquivo-nome"></span>
+          <input type="file" id="catalogo-form-arquivo" accept=".pdf,.jpg,.jpeg,.png,.webp,.zip,.ppt,.pptx" hidden>
+        </div>
+        <div class="sistema-dica" data-cat="dicaArquivo">PDF, imagem, PowerPoint ou ZIP — até 50 MB.</div></div>
+      <button class="channel-create-btn" id="catalogo-form-salvar">Salvar</button>
+      <button class="sistema-excluir-btn" id="catalogo-form-excluir" style="display:none;">Excluir catálogo</button>
+    </div>
+  </div>
 
   <!-- Modal Sistema (incluir / editar) — só admins -->
   <div class="chat-modal" id="sistema-form-modal">

@@ -41,3 +41,28 @@
 .sistema-logo-previa img { width: 32px; height: 32px; object-fit: contain; }
 .sistema-logo-btn { background: transparent; border: 1px solid var(--border2); color: var(--text2); font-family: var(--font-display); font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 8px 12px; cursor: pointer; }
 .sistema-logo-btn:hover { border-color: var(--text); color: var(--text); }
+
+/* Catálogos */
+.cat-topo { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1200px; margin-bottom: 10px; flex-wrap: wrap; gap: 12px; }
+.cat-filtros { display: flex; gap: 12px; width: 100%; max-width: 1200px; margin: 10px 0 4px; flex-wrap: wrap; }
+.cat-filtros select { flex: 0 1 220px; min-width: 0; }
+.cat-filtros input { flex: 1 1 240px; min-width: 0; }
+.cat-lista { width: 100%; max-width: 1200px; }
+.cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin: 16px 0 32px; }
+.cat-card { background: var(--card-bg); border: 1px solid var(--border); padding: 18px; display: flex; flex-direction: column; gap: 10px; cursor: pointer; transition: all .2s; position: relative; min-width: 0; }
+.cat-card:hover { border-color: var(--text); transform: translateY(-3px); }
+.cat-card-topo { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.cat-ext { flex-shrink: 0; width: 44px; height: 54px; border: 1px solid var(--border2); border-radius: 4px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 6px; font-family: var(--font-display); font-weight: 800; font-size: 11px; letter-spacing: 1px; color: #e05555; background: var(--bg3); }
+.cat-ext.img { color: #3b82f6; } .cat-ext.zip { color: #b08d57; } .cat-ext.ppt { color: #e8833a; }
+.cat-info { min-width: 0; }
+.cat-nome { font-family: var(--font-display); font-weight: 800; font-size: 16px; text-transform: uppercase; line-height: 1.2; overflow-wrap: anywhere; }
+.cat-data { font-size: 11px; color: var(--text3); letter-spacing: 1px; margin-top: 4px; }
+.cat-rodape { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 10px; color: var(--text4); letter-spacing: 1px; text-transform: uppercase; border-top: 1px solid var(--border); padding-top: 10px; }
+.cat-selo { position: absolute; top: 10px; right: 10px; font-family: var(--font-display); font-size: 9px; font-weight: 800; letter-spacing: 1.5px; padding: 3px 7px; text-transform: uppercase; }
+.cat-selo.novo { background: #4caf7d; color: #fff; }
+.cat-selo.breve { border: 1px solid var(--border2); color: var(--text3); }
+.cat-acoes { display: flex; gap: 6px; }
+.cat-acao { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--border2); background: var(--card-bg); color: var(--text3); font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.cat-acao:hover { border-color: var(--text); color: var(--text); }
+.cat-arquivo-campo { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.cat-arquivo-nome { font-size: 12px; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
