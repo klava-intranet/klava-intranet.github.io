@@ -13,6 +13,7 @@ export async function entrarComGoogle() {
 }
 
 export async function sair() {
+  window.__klavaSaindo = true; // saída voluntária: não mostrar "sessão expirou"
   await sb.auth.signOut();
   window.location.reload();
 }
