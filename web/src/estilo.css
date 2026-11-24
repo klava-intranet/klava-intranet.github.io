@@ -58,7 +58,7 @@
 .cat-nome { font-family: var(--font-display); font-weight: 800; font-size: 16px; text-transform: uppercase; line-height: 1.2; overflow-wrap: anywhere; }
 .cat-data { font-size: 11px; color: var(--text3); letter-spacing: 1px; margin-top: 4px; }
 .cat-rodape { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 10px; color: var(--text4); letter-spacing: 1px; text-transform: uppercase; border-top: 1px solid var(--border); padding-top: 10px; }
-.cat-selo { position: absolute; top: 10px; right: 10px; font-family: var(--font-display); font-size: 9px; font-weight: 800; letter-spacing: 1.5px; padding: 3px 7px; text-transform: uppercase; }
+.cat-selo { display: inline-block; margin-bottom: 6px; font-family: var(--font-display); font-size: 9px; font-weight: 800; letter-spacing: 1.5px; padding: 3px 7px; text-transform: uppercase; }
 .cat-selo.novo { background: #4caf7d; color: #fff; }
 .cat-selo.breve { border: 1px solid var(--border2); color: var(--text3); }
 .cat-acoes { display: flex; gap: 6px; }
@@ -66,3 +66,14 @@
 .cat-acao:hover { border-color: var(--text); color: var(--text); }
 .cat-arquivo-campo { display: flex; align-items: center; gap: 10px; min-width: 0; }
 .cat-arquivo-nome { font-size: 12px; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+
+/* Catálogos — vigência */
+.cat-datas { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.cat-datas .channel-form-field { min-width: 0; }
+@media (max-width: 480px) { .cat-datas { grid-template-columns: 1fr; } }
+.cat-filtros select { flex: 0 1 200px; }
+.cat-selo.encerra { background: #e8833a; color: #fff; }
+.cat-selo.encerrado { background: var(--bg3); color: var(--text3); border: 1px solid var(--border2); }
+.cat-card.cat-encerrado { opacity: .55; }
+.cat-card.cat-encerrado:hover { opacity: .85; }
+.cat-vigencia { font-size: 11px; color: var(--text3); letter-spacing: 1px; margin-top: 2px; }

@@ -317,6 +317,7 @@
       </div>
       <div class="cat-filtros">
         <select id="catalogo-filtro-marca" class="channel-form-input"></select>
+        <select id="catalogo-filtro-situacao" class="channel-form-input"></select>
         <input type="search" id="catalogo-busca" class="channel-form-input" placeholder="Buscar catálogo…">
       </div>
       <div id="catalogos-lista" class="cat-lista"></div>
@@ -334,15 +335,20 @@
         <datalist id="catalogo-marcas"></datalist></div>
       <div class="channel-form-field"><label class="channel-form-label" data-cat="tituloCampo">Título / Coleção</label>
         <input type="text" id="catalogo-form-nome" class="channel-form-input" maxlength="120" placeholder="Ex: Verão 2027"></div>
-      <div class="channel-form-field"><label class="channel-form-label" data-cat="data">Data de publicação</label>
-        <input type="date" id="catalogo-form-data" class="channel-form-input"></div>
+      <div class="cat-datas">
+        <div class="channel-form-field"><label class="channel-form-label" data-cat="data">Data de publicação</label>
+          <input type="date" id="catalogo-form-data" class="channel-form-input"></div>
+        <div class="channel-form-field"><label class="channel-form-label" data-cat="fim">Encerramento da vigência</label>
+          <input type="date" id="catalogo-form-fim" class="channel-form-input"></div>
+      </div>
+      <div class="sistema-dica" data-cat="dicaFim" style="margin:-6px 0 12px;">Deixe o encerramento vazio se o catálogo não tiver prazo.</div>
       <div class="channel-form-field"><label class="channel-form-label" data-cat="arquivo">Arquivo</label>
         <div class="cat-arquivo-campo">
           <button type="button" class="sistema-logo-btn" id="catalogo-form-escolher" data-cat="escolher">Escolher arquivo</button>
           <span id="catalogo-form-arquivo-nome" class="cat-arquivo-nome"></span>
           <input type="file" id="catalogo-form-arquivo" accept=".pdf,.jpg,.jpeg,.png,.webp,.zip,.ppt,.pptx" hidden>
         </div>
-        <div class="sistema-dica" data-cat="dicaArquivo">PDF, imagem, PowerPoint ou ZIP — até 50 MB.</div></div>
+        <div class="sistema-dica" data-cat="dicaArquivo">PDF, imagem, PowerPoint ou ZIP — até 500 MB.</div></div>
       <button class="channel-create-btn" id="catalogo-form-salvar">Salvar</button>
       <button class="sistema-excluir-btn" id="catalogo-form-excluir" style="display:none;">Excluir catálogo</button>
     </div>
