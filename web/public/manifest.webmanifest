@@ -1,0 +1,23 @@
+{
+  "id": "./",
+  "name": "Klava Intranet",
+  "short_name": "Klava",
+  "description": "Intranet da Klava Brands: tarefas, chat, catálogos, patrimônio e mais.",
+  "lang": "pt-BR",
+  "start_url": "./?app=1",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Patrimônio", "short_name": "Patrimônio", "url": "./?app=1#patrimonio", "icons": [{ "src": "icons/atalho-patrimonio.png", "sizes": "96x96", "type": "image/png" }] },
+    { "name": "Tarefas", "url": "./?app=1#tarefas", "icons": [{ "src": "icons/atalho-tarefas.png", "sizes": "96x96", "type": "image/png" }] },
+    { "name": "Chat", "url": "./?app=1#chat", "icons": [{ "src": "icons/atalho-chat.png", "sizes": "96x96", "type": "image/png" }] }
+  ]
+}

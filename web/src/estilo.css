@@ -203,3 +203,11 @@ form.ro .channel-form-input { opacity: .8; }
   .navbar-logo { font-size: 18px; letter-spacing: 2px; }
 }
 @media (max-width: 400px) { #notif-toggle, #ai-ask-toggle { display: none !important; } }
+
+/* PWA: item "Instalar app" no menu de apps; respeita o recorte (notch) quando instalado */
+#pwa-instalar[hidden] { display: none !important; }
+#pwa-instalar { cursor: pointer; }
+@media (display-mode: standalone) {
+  .navbar { padding-top: env(safe-area-inset-top); }
+  footer { padding-bottom: calc(20px + env(safe-area-inset-bottom)); }
+}

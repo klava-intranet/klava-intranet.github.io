@@ -3,6 +3,9 @@ import { instalarShim, iniciarRealtime } from './shim/gas.js';
 import { iniciarSistemas } from './modulos/sistemas.js';
 import { iniciarCatalogos } from './modulos/catalogos.js';
 import { iniciarPatrimonio } from './modulos/patrimonio.js';
+import { registrarServiceWorker, iniciarPWA } from './lib/pwa.js';
+
+registrarServiceWorker();
 
 const $ = (id) => document.getElementById(id);
 const mostrarTela = (id) => ['tela-carregando', 'tela-login', 'tela-sem-acesso'].forEach((t) => ($(t).hidden = t !== id));
@@ -52,6 +55,7 @@ async function iniciar() {
   iniciarSistemas(perfil);
   iniciarCatalogos(perfil);
   iniciarPatrimonio(perfil).catch((e) => console.error('patrimonio', e));
+  iniciarPWA();
   window.getUser();
   iniciarRealtime();
 
