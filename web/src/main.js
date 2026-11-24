@@ -3,6 +3,7 @@ import { instalarShim, iniciarRealtime } from './shim/gas.js';
 import { iniciarSistemas } from './modulos/sistemas.js';
 import { iniciarCatalogos } from './modulos/catalogos.js';
 import { iniciarPatrimonio } from './modulos/patrimonio.js';
+import { iniciarStaff } from './modulos/staff.js';
 import { registrarServiceWorker, iniciarPWA } from './lib/pwa.js';
 
 registrarServiceWorker();
@@ -54,6 +55,7 @@ async function iniciar() {
   instalarAvisos();
   iniciarSistemas(perfil);
   iniciarCatalogos(perfil);
+  iniciarStaff(perfil);
   iniciarPatrimonio(perfil).catch((e) => console.error('patrimonio', e));
   iniciarPWA();
   window.getUser();
