@@ -13,7 +13,7 @@ const TXT = {
   pt: { abaOrg: 'Organograma', abaStaff: 'Staff', cadastrar: '+ Cadastrar', novo: 'Cadastrar funcionário', editar: 'Editar funcionário',
         nome: 'Nome completo', apelido: 'Como é chamado', setor: 'Setor', cargo: 'Cargo', unidade: 'Unidade', vinculo: 'Vínculo',
         email: 'E-mail', telefone: 'Telefone / WhatsApp', aniversario: 'Aniversário', dia: 'Dia', mes: 'Mês', admissao: 'Data de admissão',
-        ativo: 'Ativo (desmarque quando sair da empresa)', acesso: 'Acesso à intranet (entra com o e-mail acima)', comAcesso: 'acessa a intranet',
+        ativo: 'Ativo (desmarque quando sair da empresa)', acesso: 'Acesso à intranet (entra com o e-mail acima)', novoSetor: '+ Novo setor…', nomeSetor: 'Nome do novo setor:', comAcesso: 'acessa a intranet',
         erroEmailAcesso: 'Para liberar o acesso, cadastre o e-mail (conta Google da Klava).', acessoLiberado: (a) => `Acesso liberado. Usuário: ${a}`, salvar: 'Salvar', excluir: 'Excluir cadastro', confirmaExcluir: 'Excluir o cadastro de',
         todosSetores: 'Todos os setores', todasUnid: 'Todas as unidades', buscar: 'Buscar nome, cargo, e-mail…', inativos: 'Mostrar inativos',
         pessoas: (n) => `${n} pessoa${n === 1 ? '' : 's'}`, vazio: 'Nenhum funcionário cadastrado ainda.', nada: 'Ninguém encontrado com esse filtro.',
@@ -24,7 +24,7 @@ const TXT = {
   en: { abaOrg: 'Org chart', abaStaff: 'Staff', cadastrar: '+ Add', novo: 'Add employee', editar: 'Edit employee',
         nome: 'Full name', apelido: 'Goes by', setor: 'Department', cargo: 'Role', unidade: 'Office', vinculo: 'Contract',
         email: 'E-mail', telefone: 'Phone / WhatsApp', aniversario: 'Birthday', dia: 'Day', mes: 'Month', admissao: 'Hire date',
-        ativo: 'Active (uncheck when they leave)', acesso: 'Intranet access (signs in with the e-mail above)', comAcesso: 'uses the intranet',
+        ativo: 'Active (uncheck when they leave)', acesso: 'Intranet access (signs in with the e-mail above)', novoSetor: '+ New department…', nomeSetor: 'New department name:', comAcesso: 'uses the intranet',
         erroEmailAcesso: 'To grant access, enter the e-mail (Klava Google account).', acessoLiberado: (a) => `Access granted. User: ${a}`, salvar: 'Save', excluir: 'Delete record', confirmaExcluir: 'Delete the record of',
         todosSetores: 'All departments', todasUnid: 'All offices', buscar: 'Search name, role, e-mail…', inativos: 'Show inactive',
         pessoas: (n) => `${n} ${n === 1 ? 'person' : 'people'}`, vazio: 'No employees yet.', nada: 'No one matches this filter.',
@@ -35,7 +35,7 @@ const TXT = {
   zh: { abaOrg: '组织架构', abaStaff: '员工', cadastrar: '+ 新增', novo: '新增员工', editar: '编辑员工',
         nome: '全名', apelido: '常用称呼', setor: '部门', cargo: '职位', unidade: '办公地点', vinculo: '合同类型',
         email: '邮箱', telefone: '电话 / WhatsApp', aniversario: '生日', dia: '日', mes: '月', admissao: '入职日期',
-        ativo: '在职（离职时取消勾选）', acesso: '内网访问权限（使用上方邮箱登录）', comAcesso: '可访问内网',
+        ativo: '在职（离职时取消勾选）', acesso: '内网访问权限（使用上方邮箱登录）', novoSetor: '+ 新部门…', nomeSetor: '新部门名称：', comAcesso: '可访问内网',
         erroEmailAcesso: '开通访问前请先填写邮箱（Klava Google 账号）。', acessoLiberado: (a) => `已开通访问。用户名：${a}`, salvar: '保存', excluir: '删除记录', confirmaExcluir: '删除以下员工的记录',
         todosSetores: '所有部门', todasUnid: '所有地点', buscar: '搜索姓名、职位、邮箱…', inativos: '显示离职人员',
         pessoas: (n) => `${n} 人`, vazio: '暂无员工记录。', nada: '没有符合筛选条件的人员。',
@@ -172,7 +172,7 @@ function abrirModal(s) {
       ${campo(tx('nome') + ' *', inp('nome', r.nome, 'maxlength="120"'))}
       <div class="stf-g2">
         ${campo(tx('apelido'), inp('apelido', r.apelido, 'maxlength="40"'))}
-        ${campo(tx('setor') + ' *', `<input class="channel-form-input" name="setor" list="staff-setores" maxlength="60" value="${esc(r.setor || '')}"><datalist id="staff-setores">${setores.map((x) => `<option value="${esc(x)}">`).join('')}</datalist>`)}
+        ${campo(tx('setor') + ' *', `<select class="channel-form-input" name="setor"><option value="">${tx('escolha')}</option>${setores.map((x) => `<option value="${esc(x)}"${x === r.setor ? ' selected' : ''}>${esc(x)}</option>`).join('')}<option value="__novo">${tx('novoSetor')}</option></select>`)}
       </div>
       <div class="stf-g2">
         ${campo(tx('cargo'), inp('cargo', r.cargo, 'maxlength="80"'))}
@@ -194,6 +194,17 @@ function abrirModal(s) {
     </form></div>`;
   document.body.appendChild(m);
   m.addEventListener('click', (e) => { if (e.target === m) fecharModal(); else cliques(e); });
+  const selSetor = m.querySelector('[name=setor]');
+  let anterior = selSetor.value;
+  selSetor.onchange = () => {
+    if (selSetor.value !== '__novo') { anterior = selSetor.value; return; }
+    const novo = (prompt(tx('nomeSetor')) || '').trim().slice(0, 60);
+    if (!novo) { selSetor.value = anterior; return; }
+    const existe = [...selSetor.options].find((o) => o.value.toLowerCase() === novo.toLowerCase());
+    if (!existe) selSetor.querySelector('option[value="__novo"]').insertAdjacentHTML('beforebegin', `<option value="${esc(novo)}">${esc(novo)}</option>`);
+    selSetor.value = existe ? existe.value : novo;
+    anterior = selSetor.value;
+  };
   setTimeout(() => m.querySelector('[name=nome]').focus(), 50);
 }
 const fecharModal = () => $('staff-modal')?.remove();
