@@ -2,6 +2,7 @@ import { entrarComGoogle, sair, carregarSessao } from './lib/auth.js';
 import { instalarShim, iniciarRealtime } from './shim/gas.js';
 import { iniciarSistemas } from './modulos/sistemas.js';
 import { iniciarCatalogos } from './modulos/catalogos.js';
+import { iniciarPatrimonio } from './modulos/patrimonio.js';
 
 const $ = (id) => document.getElementById(id);
 const mostrarTela = (id) => ['tela-carregando', 'tela-login', 'tela-sem-acesso'].forEach((t) => ($(t).hidden = t !== id));
@@ -50,6 +51,7 @@ async function iniciar() {
   instalarAvisos();
   iniciarSistemas(perfil);
   iniciarCatalogos(perfil);
+  iniciarPatrimonio(perfil).catch((e) => console.error('patrimonio', e));
   window.getUser();
   iniciarRealtime();
 
