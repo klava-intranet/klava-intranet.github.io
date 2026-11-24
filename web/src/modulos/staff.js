@@ -11,7 +11,7 @@ const VINCULOS = ['CLT', 'PJ', 'Estágio', 'Temporário', 'Representante'];
 
 const TXT = {
   pt: { abaOrg: 'Organograma', abaStaff: 'Staff', cadastrar: '+ Cadastrar', novo: 'Cadastrar funcionário', editar: 'Editar funcionário',
-        nome: 'Nome completo', apelido: 'Como é chamado', setor: 'Setor', cargo: 'Cargo', unidade: 'Unidade', vinculo: 'Vínculo',
+        nome: 'Nome completo', colNome: 'Nome', colFone: 'Telefone', apelido: 'Como é chamado', setor: 'Setor', cargo: 'Cargo', unidade: 'Unidade', vinculo: 'Vínculo',
         email: 'E-mail', telefone: 'Telefone / WhatsApp', aniversario: 'Aniversário', dia: 'Dia', mes: 'Mês', admissao: 'Data de admissão',
         ativo: 'Ativo (desmarque quando sair da empresa)', acesso: 'Acesso à intranet (entra com o e-mail acima)', novoSetor: '+ Novo setor…', nomeSetor: 'Nome do novo setor:', comAcesso: 'acessa a intranet',
         erroEmailAcesso: 'Para liberar o acesso, cadastre o e-mail (conta Google da Klava).', acessoLiberado: (a) => `Acesso liberado. Usuário: ${a}`, salvar: 'Salvar', excluir: 'Excluir cadastro', confirmaExcluir: 'Excluir o cadastro de',
@@ -22,7 +22,7 @@ const TXT = {
         erroData: 'Esse dia não existe nesse mês.', semAnivCad: 'Sem aniversário cadastrado', escolha: '—',
         meses: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'] },
   en: { abaOrg: 'Org chart', abaStaff: 'Staff', cadastrar: '+ Add', novo: 'Add employee', editar: 'Edit employee',
-        nome: 'Full name', apelido: 'Goes by', setor: 'Department', cargo: 'Role', unidade: 'Office', vinculo: 'Contract',
+        nome: 'Full name', colNome: 'Name', colFone: 'Phone', apelido: 'Goes by', setor: 'Department', cargo: 'Role', unidade: 'Office', vinculo: 'Contract',
         email: 'E-mail', telefone: 'Phone / WhatsApp', aniversario: 'Birthday', dia: 'Day', mes: 'Month', admissao: 'Hire date',
         ativo: 'Active (uncheck when they leave)', acesso: 'Intranet access (signs in with the e-mail above)', novoSetor: '+ New department…', nomeSetor: 'New department name:', comAcesso: 'uses the intranet',
         erroEmailAcesso: 'To grant access, enter the e-mail (Klava Google account).', acessoLiberado: (a) => `Access granted. User: ${a}`, salvar: 'Save', excluir: 'Delete record', confirmaExcluir: 'Delete the record of',
@@ -33,7 +33,7 @@ const TXT = {
         erroData: 'That day does not exist in that month.', semAnivCad: 'No birthday on file', escolha: '—',
         meses: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] },
   zh: { abaOrg: '组织架构', abaStaff: '员工', cadastrar: '+ 新增', novo: '新增员工', editar: '编辑员工',
-        nome: '全名', apelido: '常用称呼', setor: '部门', cargo: '职位', unidade: '办公地点', vinculo: '合同类型',
+        nome: '全名', colNome: '姓名', colFone: '电话', apelido: '常用称呼', setor: '部门', cargo: '职位', unidade: '办公地点', vinculo: '合同类型',
         email: '邮箱', telefone: '电话 / WhatsApp', aniversario: '生日', dia: '日', mes: '月', admissao: '入职日期',
         ativo: '在职（离职时取消勾选）', acesso: '内网访问权限（使用上方邮箱登录）', novoSetor: '+ 新部门…', nomeSetor: '新部门名称：', comAcesso: '可访问内网',
         erroEmailAcesso: '开通访问前请先填写邮箱（Klava Google 账号）。', acessoLiberado: (a) => `已开通访问。用户名：${a}`, salvar: '保存', excluir: '删除记录', confirmaExcluir: '删除以下员工的记录',
@@ -85,29 +85,35 @@ function renderAbas() {
   $('page-setores').classList.toggle('staff-on', aba === 'staff');
 }
 
-function card(s) {
+// uma linha da tabela (no celular cada linha vira um bloco empilhado)
+function linha(s) {
   const [, hm, hd] = hojeSP();
   const ehHoje = s.ativo && s.aniv_mes === hm && s.aniv_dia === hd;
-  const linha2 = [s.unidade, s.vinculo].filter(Boolean).join(' · ');
-  return `<div class="stf-card${s.ativo ? '' : ' inativo'}${ehHoje ? ' aniv-hoje' : ''}">
-    <div class="stf-topo">
-      <div class="stf-avatar">${esc(iniciais(s.apelido || s.nome))}</div>
-      <div class="stf-id">
-        <div class="stf-nome">${esc(s.apelido || s.nome)}${s.ativo ? '' : ` <span class="stf-tag">${tx('inativo')}</span>`}</div>
-        ${s.apelido ? `<div class="stf-sub">${esc(s.nome)}</div>` : ''}
-        <div class="stf-cargo">${esc(s.cargo || '')}</div>
-        ${ehAdmin() && comAcesso.has(s.id) ? `<div class="stf-acesso">🔑 ${tx('comAcesso')}</div>` : ''}
-      </div>
-      ${ehAdmin() ? `<button type="button" class="cat-acao" data-stf-editar="${s.id}" title="${tx('editar')}">✏️</button>` : ''}
-    </div>
-    <div class="stf-info">
-      ${linha2 ? `<div>${esc(linha2)}</div>` : ''}
-      <div>${s.aniv_dia ? `🎂 ${ddmm(s)}${ehHoje ? ` · <b>${tx('hoje')}</b>` : ''}` : `<span class="stf-mudo">${tx('semAnivCad')}</span>`}</div>
-      ${s.email ? `<div><a href="mailto:${esc(s.email)}">${esc(s.email)}</a></div>` : ''}
-      ${s.telefone ? `<div><a href="https://wa.me/55${esc(s.telefone.replace(/\D/g, '').replace(/^55(?=\d{10,11}$)/, ''))}" target="_blank" rel="noopener">${esc(s.telefone)}</a></div>` : ''}
-    </div>
-  </div>`;
+  const fone = s.telefone ? s.telefone.replace(/\D/g, '').replace(/^55(?=\d{10,11}$)/, '') : '';
+  return `<tr class="${s.ativo ? '' : 'inativo'}${ehHoje ? ' aniv-hoje' : ''}">
+    <td class="stf-c-nome" data-rot="${esc(tx('colNome'))}">
+      <div class="stf-nome">${esc(s.apelido || s.nome)}${s.ativo ? '' : ` <span class="stf-tag">${tx('inativo')}</span>`}</div>
+      ${s.apelido ? `<div class="stf-sub">${esc(s.nome)}</div>` : ''}
+      ${ehAdmin() && comAcesso.has(s.id) ? `<div class="stf-acesso">🔑 ${tx('comAcesso')}</div>` : ''}
+    </td>
+    <td data-rot="${esc(tx('setor'))}">${esc(s.setor)}</td>
+    <td data-rot="${esc(tx('cargo'))}"${s.cargo ? '' : ' class="vazio"'}>${esc(s.cargo || '—')}</td>
+    <td class="stf-c-md stf-c-unid${s.unidade ? '' : ' vazio'}" data-rot="${esc(tx('unidade'))}">${esc(s.unidade || '—')}</td>
+    <td class="stf-c-lg${s.vinculo ? '' : ' vazio'}" data-rot="${esc(tx('vinculo'))}">${esc(s.vinculo || '—')}</td>
+    <td class="stf-c-aniv${s.aniv_dia ? '' : ' vazio'}" data-rot="${esc(tx('aniversario'))}">${s.aniv_dia ? `🎂 ${ddmm(s)}${ehHoje ? ` <b>${tx('hoje')}</b>` : ''}` : '<span class="stf-mudo">—</span>'}</td>
+    <td class="stf-c-email${s.email ? '' : ' vazio'}" data-rot="${esc(tx('email'))}">${s.email ? `<a href="mailto:${esc(s.email)}" title="${esc(s.email)}">${esc(s.email)}</a>` : '—'}</td>
+    <td class="stf-c-md stf-c-fone${s.telefone ? '' : ' vazio'}" data-rot="${esc(tx('colFone'))}">${s.telefone ? `<a href="https://wa.me/55${esc(fone)}" target="_blank" rel="noopener">${esc(s.telefone)}</a>` : '—'}</td>
+    ${ehAdmin() ? `<td class="stf-c-acao"><button type="button" class="cat-acao" data-stf-editar="${s.id}" title="${tx('editar')}">✏️</button></td>` : ''}
+  </tr>`;
 }
+
+const ORDENS = {
+  nome: (s) => normal(s.apelido || s.nome),
+  setor: (s) => `${normal(s.setor)} ${normal(s.apelido || s.nome)}`,
+  cargo: (s) => normal(s.cargo || '~'),
+  aniversario: (s) => (s.aniv_mes ? s.aniv_mes * 100 + s.aniv_dia : 9999),
+};
+let ordem = { campo: 'setor', asc: true };
 
 function render() {
   renderAbas();
@@ -128,13 +134,19 @@ function render() {
     ? doMes.map((s) => `<span class="stf-aniv${s.aniv_dia === hd ? ' hoje' : ''}${s.aniv_dia < hd ? ' passou' : ''}">🎂 <b>${String(s.aniv_dia).padStart(2, '0')}</b> ${esc(s.apelido || s.nome)}</span>`).join('')
     : `<span class="stf-mudo">${tx('semAniv')}</span>`;
 
-  const grupos = {};
-  vis.forEach((s) => (grupos[s.setor] ||= []).push(s));
+  const chave = ORDENS[ordem.campo];
+  vis.sort((x, y) => { const a = chave(x), b = chave(y); return (a < b ? -1 : a > b ? 1 : 0) * (ordem.asc ? 1 : -1); });
+  const th = (campo, rot, cls = '') => {
+    const seta = ORDENS[campo] ? (ordem.campo === campo ? (ordem.asc ? ' ▲' : ' ▼') : '') : '';
+    return `<th class="${cls}"${ORDENS[campo] ? ` data-stf-ordem="${campo}"` : ''}>${rot}${seta}</th>`;
+  };
   const corpo = !lista.length ? `<div class="stf-vazio">${tx('vazio')}</div>`
     : !vis.length ? `<div class="stf-vazio">${tx('nada')}</div>`
-    : Object.keys(grupos).sort((a, b) => a.localeCompare(b, 'pt')).map((g) => `
-      <div class="section-title">${esc(g)} <span class="stf-qtd">${grupos[g].length}</span></div>
-      <div class="stf-grid">${grupos[g].map(card).join('')}</div>`).join('');
+    : `<table class="stf-tabela"><thead><tr>
+        ${th('nome', tx('colNome'), 'stf-c-nome')}${th('setor', tx('setor'))}${th('cargo', tx('cargo'))}
+        ${th('unidade', tx('unidade'), 'stf-c-md stf-c-unid')}${th('vinculo', tx('vinculo'), 'stf-c-lg')}${th('aniversario', tx('aniversario'), 'stf-c-aniv')}
+        ${th('email', tx('email'), 'stf-c-email')}${th('telefone', tx('colFone'), 'stf-c-md stf-c-fone')}${ehAdmin() ? '<th class="stf-c-acao"></th>' : ''}
+      </tr></thead><tbody>${vis.map(linha).join('')}</tbody></table>`;
 
   const foco = document.activeElement?.dataset?.stfFiltro;
   box.innerHTML = `
@@ -261,8 +273,13 @@ function atualizarMeuDia() {
 }
 
 function cliques(e) {
-  const t = e.target.closest('[data-stf-acao],[data-stf-editar],[data-setaba]');
+  const t = e.target.closest('[data-stf-acao],[data-stf-editar],[data-setaba],[data-stf-ordem]');
   if (!t) return;
+  if (t.dataset.stfOrdem) {
+    const c = t.dataset.stfOrdem;
+    ordem = { campo: c, asc: ordem.campo === c ? !ordem.asc : true };
+    return render();
+  }
   if (t.dataset.setaba) { aba = t.dataset.setaba; if (aba === 'staff' && !carregado) carregar(); return render(); }
   if (t.dataset.stfEditar) return abrirModal(lista.find((s) => s.id === t.dataset.stfEditar));
   switch (t.dataset.stfAcao) {
