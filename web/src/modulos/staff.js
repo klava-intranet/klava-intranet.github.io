@@ -13,7 +13,8 @@ const TXT = {
   pt: { abaOrg: 'Organograma', abaStaff: 'Staff', cadastrar: '+ Cadastrar', novo: 'Cadastrar funcionário', editar: 'Editar funcionário',
         nome: 'Nome completo', apelido: 'Como é chamado', setor: 'Setor', cargo: 'Cargo', unidade: 'Unidade', vinculo: 'Vínculo',
         email: 'E-mail', telefone: 'Telefone / WhatsApp', aniversario: 'Aniversário', dia: 'Dia', mes: 'Mês', admissao: 'Data de admissão',
-        ativo: 'Ativo (desmarque quando sair da empresa)', salvar: 'Salvar', excluir: 'Excluir cadastro', confirmaExcluir: 'Excluir o cadastro de',
+        ativo: 'Ativo (desmarque quando sair da empresa)', acesso: 'Acesso à intranet (entra com o e-mail acima)', comAcesso: 'acessa a intranet',
+        erroEmailAcesso: 'Para liberar o acesso, cadastre o e-mail (conta Google da Klava).', acessoLiberado: (a) => `Acesso liberado. Usuário: ${a}`, salvar: 'Salvar', excluir: 'Excluir cadastro', confirmaExcluir: 'Excluir o cadastro de',
         todosSetores: 'Todos os setores', todasUnid: 'Todas as unidades', buscar: 'Buscar nome, cargo, e-mail…', inativos: 'Mostrar inativos',
         pessoas: (n) => `${n} pessoa${n === 1 ? '' : 's'}`, vazio: 'Nenhum funcionário cadastrado ainda.', nada: 'Ninguém encontrado com esse filtro.',
         anivMes: 'Aniversariantes do mês', hoje: 'hoje', semAniv: 'Ninguém faz aniversário este mês.', inativo: 'inativo',
@@ -23,7 +24,8 @@ const TXT = {
   en: { abaOrg: 'Org chart', abaStaff: 'Staff', cadastrar: '+ Add', novo: 'Add employee', editar: 'Edit employee',
         nome: 'Full name', apelido: 'Goes by', setor: 'Department', cargo: 'Role', unidade: 'Office', vinculo: 'Contract',
         email: 'E-mail', telefone: 'Phone / WhatsApp', aniversario: 'Birthday', dia: 'Day', mes: 'Month', admissao: 'Hire date',
-        ativo: 'Active (uncheck when they leave)', salvar: 'Save', excluir: 'Delete record', confirmaExcluir: 'Delete the record of',
+        ativo: 'Active (uncheck when they leave)', acesso: 'Intranet access (signs in with the e-mail above)', comAcesso: 'uses the intranet',
+        erroEmailAcesso: 'To grant access, enter the e-mail (Klava Google account).', acessoLiberado: (a) => `Access granted. User: ${a}`, salvar: 'Save', excluir: 'Delete record', confirmaExcluir: 'Delete the record of',
         todosSetores: 'All departments', todasUnid: 'All offices', buscar: 'Search name, role, e-mail…', inativos: 'Show inactive',
         pessoas: (n) => `${n} ${n === 1 ? 'person' : 'people'}`, vazio: 'No employees yet.', nada: 'No one matches this filter.',
         anivMes: 'Birthdays this month', hoje: 'today', semAniv: 'No birthdays this month.', inativo: 'inactive',
@@ -33,7 +35,8 @@ const TXT = {
   zh: { abaOrg: '组织架构', abaStaff: '员工', cadastrar: '+ 新增', novo: '新增员工', editar: '编辑员工',
         nome: '全名', apelido: '常用称呼', setor: '部门', cargo: '职位', unidade: '办公地点', vinculo: '合同类型',
         email: '邮箱', telefone: '电话 / WhatsApp', aniversario: '生日', dia: '日', mes: '月', admissao: '入职日期',
-        ativo: '在职（离职时取消勾选）', salvar: '保存', excluir: '删除记录', confirmaExcluir: '删除以下员工的记录',
+        ativo: '在职（离职时取消勾选）', acesso: '内网访问权限（使用上方邮箱登录）', comAcesso: '可访问内网',
+        erroEmailAcesso: '开通访问前请先填写邮箱（Klava Google 账号）。', acessoLiberado: (a) => `已开通访问。用户名：${a}`, salvar: '保存', excluir: '删除记录', confirmaExcluir: '删除以下员工的记录',
         todosSetores: '所有部门', todasUnid: '所有地点', buscar: '搜索姓名、职位、邮箱…', inativos: '显示离职人员',
         pessoas: (n) => `${n} 人`, vazio: '暂无员工记录。', nada: '没有符合筛选条件的人员。',
         anivMes: '本月生日', hoje: '今天', semAniv: '本月没有人过生日。', inativo: '离职',
@@ -54,14 +57,19 @@ const iniciais = (n) => n.split(/\s+/).filter(Boolean).slice(0, 2).map((p) => p[
 let perfil = null;
 let lista = [];
 let carregado = false;
+let comAcesso = new Set();
 let aba = 'org';
 const filtro = { setor: '', unid: '', q: '', inativos: false };
 const ehAdmin = () => perfil?.papel === 'admin';
 
 async function carregar() {
-  const { data, error } = await sb.from('staff').select('*').order('nome');
+  const [{ data, error }, acessos] = await Promise.all([
+    sb.from('staff').select('*').order('nome'),
+    sb.rpc('staff_com_acesso'),
+  ]);
   if (error) { console.error('staff', error); return; }
   lista = data;
+  comAcesso = new Set(acessos.data || []);
   carregado = true;
   render();
 }
@@ -88,6 +96,7 @@ function card(s) {
         <div class="stf-nome">${esc(s.apelido || s.nome)}${s.ativo ? '' : ` <span class="stf-tag">${tx('inativo')}</span>`}</div>
         ${s.apelido ? `<div class="stf-sub">${esc(s.nome)}</div>` : ''}
         <div class="stf-cargo">${esc(s.cargo || '')}</div>
+        ${ehAdmin() && comAcesso.has(s.id) ? `<div class="stf-acesso">🔑 ${tx('comAcesso')}</div>` : ''}
       </div>
       ${ehAdmin() ? `<button type="button" class="cat-acao" data-stf-editar="${s.id}" title="${tx('editar')}">✏️</button>` : ''}
     </div>
@@ -179,6 +188,7 @@ function abrirModal(s) {
       </div>
       ${campo(tx('aniversario'), `<div class="stf-g2">${sel('aniv_dia', Array.from({ length: 31 }, (_, i) => i + 1), r.aniv_dia, (v) => `${tx('dia')} ${v}`)}${sel('aniv_mes', Array.from({ length: 12 }, (_, i) => i + 1), r.aniv_mes, (v) => tx('meses')[v - 1])}</div>`)}
       <label class="stf-check"><input type="checkbox" name="ativo"${r.ativo ? ' checked' : ''}> ${tx('ativo')}</label>
+      <label class="stf-check"><input type="checkbox" name="acesso"${s && comAcesso.has(s.id) ? ' checked' : ''}> ${tx('acesso')}</label>
       <button type="button" class="channel-create-btn" data-stf-acao="salvar">${tx('salvar')}</button>
       ${s ? `<button type="button" class="sistema-excluir-btn" data-stf-acao="excluir">${tx('excluir')}</button>` : ''}
     </form></div>`;
@@ -202,12 +212,21 @@ async function salvar() {
   if (!reg.setor) return alert(tx('erroSetor'));
   if ((reg.aniv_dia == null) !== (reg.aniv_mes == null)) return alert(tx('erroAniv'));
   if (reg.aniv_dia && reg.aniv_dia > new Date(2024, reg.aniv_mes, 0).getDate()) return alert(tx('erroData'));
+  const querAcesso = f.acesso.checked && reg.ativo;
+  if (querAcesso && !reg.email) return alert(tx('erroEmailAcesso'));
   const btn = f.querySelector('[data-stf-acao="salvar"]');
   btn.disabled = true;
   const id = g('id');
   const r = id ? await sb.from('staff').update(reg).eq('id', id).select('id') : await sb.from('staff').insert(reg).select('id');
   btn.disabled = false;
   if (r.error || !r.data?.length) return alert('Erro: ' + (r.error?.message || 'sem permissão.'));
+  const staffId = r.data[0].id;
+  const tinha = comAcesso.has(staffId);
+  if (querAcesso !== tinha && (querAcesso || reg.ativo)) { // inativo já perde o acesso pelo banco
+    const a = await sb.rpc('staff_acesso', { p_staff: staffId, p_liberar: querAcesso });
+    if (a.error) alert('Erro: ' + a.error.message);
+    else if (querAcesso) alert(TXT[lang()].acessoLiberado(a.data?.alias || ''));
+  }
   fecharModal();
   atualizarMeuDia();
   carregar();

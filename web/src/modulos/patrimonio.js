@@ -224,8 +224,8 @@ async function carregar() {
     q(sb.from('pat_equipe').select('*')),
   ]);
   Object.assign(D, { categorias, locais, pessoas, bens, campanhas, leituras, equipe });
-  if (ehAdmin() && !D.usuarios.length) {
-    D.usuarios = await q(sb.from('usuarios').select('id, alias, nome, ativo').eq('ativo', true).order('nome'));
+  if (ehAdmin()) { // sempre recarrega: quem ganhou acesso agora já aparece na Equipe
+    D.usuarios = await q(sb.from('usuarios').select('id, alias, nome, email, ativo').eq('ativo', true).order('nome'));
   }
   carregado = true;
 }
@@ -849,7 +849,7 @@ function vCadastros() {
     <div class="section-title" style="margin-top:0">${tx('cadEquipe')}</div>
     <div class="pat-dica">${tx('equipeDica')}</div>
     <div class="pat-lista">${equipe || `<div class="pat-vazio">${tx('nada')}</div>`}</div>
-    <div class="pat-cad-add"><select class="channel-form-input" id="pat-eq-user">${opts(livres, '', (u) => u.nome, (u) => u.id)}</select>
+    <div class="pat-cad-add"><select class="channel-form-input" id="pat-eq-user">${opts(livres, '', (u) => `${u.nome} · ${u.email || u.alias}`, (u) => u.id)}</select>
       <select class="channel-form-input" id="pat-eq-papel"><option value="inventariante">${tx('papelInv')}</option><option value="consulta">${tx('papelCons')}</option></select>
       <button class="pat-btn" data-acao="equipe-add">${tx('adicionar')}</button></div>
 

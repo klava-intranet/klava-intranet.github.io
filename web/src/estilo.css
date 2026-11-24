@@ -255,3 +255,4 @@ form.ro .channel-form-input { opacity: .8; }
   .stf-g2 { grid-template-columns: 1fr; }
   .chat-modal-box.stf-modal-box { padding: 22px 16px; width: 96%; }
 }
+.stf-acesso { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: #4caf7d; margin-top: 4px; }
